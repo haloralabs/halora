@@ -1,0 +1,4 @@
+# Unit tests live under src/. The DOM is provided by happy-dom, registered in the preload.
+[test]
+root = "./src"
+preload = ["./src/test/setup-dom.ts"]

@@ -1,0 +1,299 @@
+@import 'tailwindcss';
+
+/*
+ * Halora design tokens. Documented in docs/design-system/foundations.md.
+ * Light ("Dawn") is the base; dark ("Night") applies from the system preference unless the
+ * owner picked a theme, which sets data-theme on <html>.
+ */
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --bg: #f8f6f1;
+  --bg-sunken: #f1eee6;
+  --surface: #ffffff;
+  --surface-2: #f4f1ea;
+  --line: #e5e0d4;
+  --line-strong: #cfc7b6;
+
+  /* Text */
+  --fg: #12131c;
+  --fg-muted: #4f5264;
+  --fg-subtle: #676a7d;
+
+  /* Halo */
+  --halo-gold: #d49a2f;
+  --halo-amber: #b9771b;
+  --halo-aurora: #4fae95;
+  --halo-lilac: #8a7be0;
+  --halo-glow: rgb(212 154 47 / 0.22);
+
+  /* Interactive */
+  --accent: #8a5800;
+  --accent-strong: #6e4500;
+  --primary-bg: #12131c;
+  --primary-bg-hover: #262838;
+  --primary-fg: #fbf8f1;
+  --focus: #8a5800;
+
+  /* Status (text-safe on surface and on their own soft background) */
+  --success: #1c7550;
+  --success-soft: #e3f3eb;
+  --warning: #8a5800;
+  --warning-soft: #fbf0d9;
+  --danger: #b42318;
+  --danger-soft: #fde8e6;
+  --info: #3346b8;
+  --info-soft: #e8ebfb;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgb(18 19 28 / 0.06);
+  --shadow-md: 0 1px 2px rgb(18 19 28 / 0.04), 0 8px 24px -8px rgb(18 19 28 / 0.12);
+  --shadow-halo: 0 0 0 1px rgb(212 154 47 / 0.25), 0 12px 40px -12px rgb(212 154 47 / 0.35);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 480ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #070811;
+    --bg-sunken: #05060c;
+    --surface: #0d0f1c;
+    --surface-2: #141729;
+    --line: #1e2236;
+    --line-strong: #2d3350;
+    --fg: #eeeaf6;
+    --fg-muted: #a6a9c2;
+    --fg-subtle: #8a8ea9;
+    --halo-gold: #f3c97a;
+    --halo-amber: #e5a54b;
+    --halo-aurora: #bdebdc;
+    --halo-lilac: #c6b8ff;
+    --halo-glow: rgb(243 201 122 / 0.2);
+    --accent: #f3c97a;
+    --accent-strong: #ffdca0;
+    --primary-bg: #f3c97a;
+    --primary-bg-hover: #ffd894;
+    --primary-fg: #1a1305;
+    --focus: #f3c97a;
+    --success: #86dcb5;
+    --success-soft: rgb(134 220 181 / 0.1);
+    --warning: #f3c97a;
+    --warning-soft: rgb(243 201 122 / 0.1);
+    --danger: #ff9b92;
+    --danger-soft: rgb(255 155 146 / 0.1);
+    --info: #aebcff;
+    --info-soft: rgb(174 188 255 / 0.1);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 16px 40px -16px rgb(0 0 0 / 0.7);
+    --shadow-halo: 0 0 0 1px rgb(243 201 122 / 0.3), 0 0 48px -8px rgb(243 201 122 / 0.35);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #070811;
+  --bg-sunken: #05060c;
+  --surface: #0d0f1c;
+  --surface-2: #141729;
+  --line: #1e2236;
+  --line-strong: #2d3350;
+  --fg: #eeeaf6;
+  --fg-muted: #a6a9c2;
+  --fg-subtle: #8a8ea9;
+  --halo-gold: #f3c97a;
+  --halo-amber: #e5a54b;
+  --halo-aurora: #bdebdc;
+  --halo-lilac: #c6b8ff;
+  --halo-glow: rgb(243 201 122 / 0.2);
+  --accent: #f3c97a;
+  --accent-strong: #ffdca0;
+  --primary-bg: #f3c97a;
+  --primary-bg-hover: #ffd894;
+  --primary-fg: #1a1305;
+  --focus: #f3c97a;
+  --success: #86dcb5;
+  --success-soft: rgb(134 220 181 / 0.1);
+  --warning: #f3c97a;
+  --warning-soft: rgb(243 201 122 / 0.1);
+  --danger: #ff9b92;
+  --danger-soft: rgb(255 155 146 / 0.1);
+  --info: #aebcff;
+  --info-soft: rgb(174 188 255 / 0.1);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 16px 40px -16px rgb(0 0 0 / 0.7);
+  --shadow-halo: 0 0 0 1px rgb(243 201 122 / 0.3), 0 0 48px -8px rgb(243 201 122 / 0.35);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-sunken: var(--bg-sunken);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-gold: var(--halo-gold);
+  --color-amber: var(--halo-amber);
+  --color-aurora: var(--halo-aurora);
+  --color-lilac: var(--halo-lilac);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-primary: var(--primary-bg);
+  --color-primary-hover: var(--primary-bg-hover);
+  --color-on-primary: var(--primary-fg);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-code), ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-halo: var(--shadow-halo);
+
+  --ease-out: var(--ease-out);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--halo-gold) 35%, transparent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Halo signature: a conic ring of light, used sparingly (logo, hero, primary meters). */
+@layer components {
+  .halo-ring {
+    background: conic-gradient(
+      from 200deg,
+      var(--halo-gold),
+      var(--halo-aurora) 30%,
+      var(--halo-lilac) 55%,
+      var(--halo-amber) 80%,
+      var(--halo-gold)
+    );
+  }
+  .halo-text {
+    background: linear-gradient(
+      100deg,
+      var(--halo-amber),
+      var(--halo-gold) 35%,
+      var(--halo-aurora) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .halo-hairline {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--halo-gold),
+      var(--halo-aurora),
+      transparent
+    );
+  }
+  .surface-grain {
+    background-image: radial-gradient(
+      color-mix(in oklab, var(--fg) 6%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+}
+
+@keyframes halo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes halo-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.04);
+  }
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-halo-spin {
+  animation: halo-spin 28s linear infinite;
+}
+.animate-halo-breathe {
+  animation: halo-breathe 6s var(--ease-out) infinite;
+}
+.animate-rise {
+  animation: rise-in var(--dur-slow) var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
