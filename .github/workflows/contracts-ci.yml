@@ -1,0 +1,69 @@
+name: contracts-ci
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/contracts/**'
+      - 'scripts/build-contracts.sh'
+      - '.github/workflows/contracts-ci.yml'
+  pull_request:
+    paths:
+      - 'apps/contracts/**'
+      - 'scripts/build-contracts.sh'
+      - '.github/workflows/contracts-ci.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: contracts-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+defaults:
+  run:
+    working-directory: apps/contracts
+
+jobs:
+  check:
+    name: fmt, clippy, test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: apps/contracts
+      - name: Format
+        run: cargo fmt --all -- --check
+      - name: Clippy
+        run: cargo clippy --all-targets --locked -- -D warnings
+      - name: Test
+        run: cargo test --locked
+
+  wasm:
+    name: wasm build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32v1-none
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: apps/contracts
+      # soroban-sdk 29 only accepts wasm builds driven by the Stellar CLI (spec shaking).
+      - uses: stellar/stellar-cli@v28.1.0
+      - name: Build deployable wasm
+        working-directory: .
+        run: scripts/build-contracts.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: halora-contracts-wasm
+          path: apps/contracts/target/wasm32v1-none/release/*.wasm
+          if-no-files-found: error
