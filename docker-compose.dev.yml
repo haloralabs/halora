@@ -1,0 +1,24 @@
+# Local development services for @halora/api.
+#   docker compose -f docker-compose.dev.yml up -d
+#   bun run --cwd apps/api db:migrate
+# Credentials below are for local development only.
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: halora-postgres
+    environment:
+      POSTGRES_USER: halora
+      POSTGRES_PASSWORD: halora
+      POSTGRES_DB: halora
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - halora-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U halora -d halora']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  halora-pgdata:

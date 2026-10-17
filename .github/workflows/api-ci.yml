@@ -1,0 +1,91 @@
+name: api-ci
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/api/**'
+      - 'apps/shared/**'
+      - 'bun.lock'
+      - 'package.json'
+      - 'tsconfig.base.json'
+      - '.github/workflows/api-ci.yml'
+  pull_request:
+    paths:
+      - 'apps/api/**'
+      - 'apps/shared/**'
+      - 'bun.lock'
+      - 'package.json'
+      - 'tsconfig.base.json'
+      - '.github/workflows/api-ci.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: api-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: apps/api
+
+jobs:
+  check:
+    name: typecheck, lint, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3'
+      - name: Install
+        working-directory: .
+        run: bun install --frozen-lockfile
+      - name: Typecheck
+        run: bun run typecheck
+      - name: Lint
+        run: bun run lint
+      - name: Test
+        run: bun test
+      - name: Build
+        run: bun run build
+
+  migrations:
+    name: apply migrations to PostgreSQL
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: halora
+          POSTGRES_PASSWORD: halora
+          POSTGRES_DB: halora
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U halora -d halora"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      # CI-only throwaway database credentials.
+      DATABASE_URL: postgres://halora:halora@localhost:5432/halora
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3'
+      - name: Install
+        working-directory: .
+        run: bun install --frozen-lockfile
+      - name: Schema and migrations are in sync
+        run: |
+          bunx drizzle-kit generate --name ci-check
+          if [ -n "$(git status --porcelain drizzle)" ]; then
+            echo "src/db/schema.ts changed without a migration. Run: bun run db:generate"
+            git status --porcelain drizzle
+            exit 1
+          fi
+      - name: Apply migrations
+        run: bun run db:migrate
