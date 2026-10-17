@@ -1,0 +1,30 @@
+{
+  "name": "halora",
+  "private": true,
+  "description": "Policy-bound wallets for AI agents on Stellar",
+  "license": "MIT",
+  "workspaces": [
+    "apps/shared",
+    "apps/sdk",
+    "apps/api",
+    "apps/mcp",
+    "apps/webapp"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,magenta \"bun run --cwd apps/api dev\" \"bun run --cwd apps/webapp dev\"",
+    "dev:api": "bun run --cwd apps/api dev",
+    "dev:webapp": "bun run --cwd apps/webapp dev",
+    "dev:mcp": "bun run --cwd apps/mcp dev",
+    "build": "bun run --filter '*' build",
+    "build:contracts": "./scripts/build-contracts.sh",
+    "test": "bun run --filter '*' test",
+    "lint": "bun run --filter '*' lint",
+    "typecheck": "bun run --filter '*' typecheck",
+    "format": "prettier --write . --ignore-path .prettierignore"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "prettier": "^3.4.0",
+    "typescript": "^5.7.0"
+  }
+}

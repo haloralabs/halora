@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+.DS_Store
+
+# Rust / Soroban
+apps/contracts/target/
+apps/contracts/**/test_snapshots/
+*.wasm
+.stellar/
