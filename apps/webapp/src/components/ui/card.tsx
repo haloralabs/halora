@@ -2,7 +2,12 @@ import type { ComponentProps } from 'react';
 import { cn } from '@/lib/cn';
 
 export function Card({ className, ...rest }: ComponentProps<'section'>) {
-  return <section className={cn('rounded-[var(--radius-xl)] bg-surface', className)} {...rest} />;
+  return (
+    <section
+      className={cn('rounded-[var(--radius-xl)] border border-line bg-surface', className)}
+      {...rest}
+    />
+  );
 }
 
 export function CardHeader({ className, ...rest }: ComponentProps<'header'>) {

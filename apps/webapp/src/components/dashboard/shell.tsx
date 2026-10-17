@@ -37,7 +37,7 @@ function isActive(pathname: string, href: string, exact?: boolean) {
 function PendingCount({ pending }: { pending: number }) {
   if (pending <= 0) return null;
   return (
-    <span className="tabular grid h-5 min-w-5 place-items-center rounded-[var(--radius-sm)] bg-signal px-1 text-[0.75rem] font-semibold text-carbon">
+    <span className="tabular grid h-5 min-w-5 place-items-center rounded-[var(--radius-sm)] bg-held px-1 font-mono text-[0.75rem] font-semibold text-night">
       {pending}
       <span className="sr-only"> pending</span>
     </span>
@@ -90,7 +90,7 @@ function MobileTabBar({ pending }: { pending: number }) {
   return (
     <nav
       aria-label="Dashboard"
-      className="fixed inset-x-0 bottom-0 z-30 bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-bg/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
     >
       <ul className="grid grid-cols-4">
         {NAV.map(({ href, label, icon: Icon, exact }) => {
@@ -126,7 +126,7 @@ function MobileTabBar({ pending }: { pending: number }) {
             href="/dashboard/agents/new"
             className="flex min-h-16 flex-col items-center justify-center gap-1 text-[0.75rem] font-medium text-subtle active:scale-95"
           >
-            <span className="grid size-6 place-items-center rounded-[var(--radius-sm)] bg-cobalt text-white">
+            <span className="grid size-6 place-items-center rounded-[var(--radius-sm)] bg-signal text-signal-ink">
               <Plus className="size-4" aria-hidden />
             </span>
             New agent
@@ -141,7 +141,7 @@ function OwnerChip() {
   const { publicKey, disconnect } = useSession();
   if (!publicKey) return null;
   return (
-    <div className="flex items-center gap-1 rounded-[var(--radius-md)] bg-surface py-1 pr-1 pl-3">
+    <div className="flex items-center gap-1 rounded-[var(--radius-md)] border border-line bg-surface py-1 pr-1 pl-3">
       <span className="relative mr-1 flex size-2" aria-hidden>
         <span className="absolute inset-0 animate-ping rounded-full bg-success opacity-60 motion-reduce:hidden" />
         <span className="relative size-2 rounded-full bg-success" />
@@ -170,11 +170,12 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-dvh bg-bg">
       {config.dataMode === 'mock' && (
-        <p className="bg-signal px-4 py-2 text-center text-[0.8125rem] font-medium text-carbon">
+        <p className="flex items-center justify-center gap-2.5 border-b border-line bg-surface px-4 py-2 text-center font-mono text-[0.75rem] tracking-[0.06em] text-muted uppercase">
+          <span className="size-1.5 shrink-0 rounded-full bg-held" aria-hidden />
           Demo mode: seeded data in your browser. No network, no real funds.
         </p>
       )}
-      <header className="sticky top-0 z-30 bg-bg">
+      <header className="sticky top-0 z-30 border-b border-line bg-bg/85 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
           <div className="flex items-center gap-8">
             <Link href="/" aria-label="Halora home" className="flex min-h-11 items-center text-fg">

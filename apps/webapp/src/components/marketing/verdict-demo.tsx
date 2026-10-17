@@ -1,7 +1,6 @@
 'use client';
 
-import { Check, Minus, X } from 'lucide-react';
-import { useDeferredValue, useId, useLayoutEffect, useRef, useState } from 'react';
+import { useDeferredValue, useId, useRef, useState } from 'react';
 import { cn } from '@/lib/cn';
 import {
   DEMO_EXAMPLES,
@@ -10,16 +9,16 @@ import {
   type DemoVerdict,
 } from '@/lib/payment-demo';
 
-const HEADLINE = {
-  allowed: 'Allowed',
-  approval: 'Waits for your approval',
-  denied: 'Denied',
-} as const;
+/**
+ * The live thing: a terminal where the visitor types what an agent wants to pay. The verdict is
+ * computed by the real policy checks (`evaluateAgentPayment` from @halora/shared), in the same
+ * order as the contract's `__check_auth`.
+ */
 
-const TONE = {
-  allowed: 'bg-paper text-carbon',
-  approval: 'bg-signal text-carbon',
-  denied: 'bg-deny text-white',
+const VERDICT = {
+  allowed: { label: 'ALLOWED', tone: 'bg-signal text-signal-ink' },
+  approval: { label: 'HELD FOR OWNER', tone: 'bg-held text-night' },
+  denied: { label: 'DENIED', tone: 'bg-deny text-night' },
 } as const;
 
 const PERSUASION = /\b(ignore|rules|instruction|override|urgent|now|trust me)\b/i;
@@ -41,196 +40,171 @@ function explain(v: DemoVerdict, text: string): string {
 
 export function VerdictDemo() {
   const [text, setText] = useState(DEMO_EXAMPLES[0]!);
-  const [focused, setFocused] = useState(false);
   const deferred = useDeferredValue(text);
   const verdict = evaluateIntent(deferred);
   const inputId = useId();
   const resultId = useId();
-
   const inputRef = useRef<HTMLInputElement>(null);
-  const mirrorRef = useRef<HTMLSpanElement>(null);
-  const [caretX, setCaretX] = useState(0);
-
-  // Places the block caret after the last character when the field is not focused.
-  useLayoutEffect(() => {
-    const input = inputRef.current;
-    const mirror = mirrorRef.current;
-    if (!input || !mirror) return;
-    setCaretX(Math.min(mirror.offsetWidth, input.clientWidth - 8) - input.scrollLeft);
-  }, [text, focused]);
 
   const replayKey =
     verdict.kind === 'empty' ? 'empty' : `${verdict.kind}-${verdict.code}-${verdict.amount}`;
 
   return (
-    <div className="mx-auto max-w-[1600px] px-4 md:px-8">
-      <label htmlFor={inputId} className="sr-only">
-        A payment your agent wants to make
-      </label>
-      <div className="relative" data-reveal style={{ ['--i' as string]: 0 }}>
-        <input
-          ref={inputRef}
-          id={inputId}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          name="payment"
-          spellCheck={false}
-          autoComplete="off"
-          autoCapitalize="off"
-          enterKeyHint="done"
-          aria-describedby={resultId}
-          data-ui
-          className="display block w-full bg-transparent pb-[0.08em] text-[11vw] text-paper caret-signal outline-none placeholder:text-paper/40 md:text-[6.4vw] 2xl:text-[6.5rem]"
-          placeholder="2 USDC to Searchwise…"
-        />
-        <span
-          ref={mirrorRef}
-          aria-hidden
-          className="display invisible absolute top-0 left-0 text-[11vw] whitespace-pre md:text-[6.4vw] 2xl:text-[6.5rem]"
-        >
-          {text}
-        </span>
-        {!focused && (
-          <span
-            aria-hidden
-            className="pointer-events-none absolute top-[0.08em] h-[0.78em] w-[0.08em] animate-[caret-blink_1.1s_steps(1)_infinite] bg-signal text-[11vw] md:text-[6.4vw] 2xl:text-[6.5rem]"
-            style={{ left: caretX + 6 }}
-          />
-        )}
-        <span
-          aria-hidden
-          className={cn(
-            'absolute right-0 bottom-0 left-0 h-1 origin-left bg-signal transition-transform duration-[var(--t-ui)] ease-[var(--ease-out)]',
-            focused ? 'scale-x-100' : 'scale-x-0',
-          )}
-        />
-      </div>
+    <div className="mt-14 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
+      <div
+        data-ui
+        data-reveal
+        style={{ ['--i' as string]: 3 }}
+        className="overflow-hidden rounded-[var(--radius-lg)] border border-night-line bg-night-1 lg:col-span-8"
+      >
+        <div className="flex items-center justify-between gap-3 border-b border-night-line px-4 py-3 font-mono text-[0.8125rem] text-mist">
+          <span className="flex items-center gap-2">
+            <span aria-hidden className="flex gap-1.5">
+              <span className="size-2.5 rounded-full bg-night-line-2" />
+              <span className="size-2.5 rounded-full bg-night-line-2" />
+              <span className="size-2.5 rounded-full bg-signal" />
+            </span>
+            <span className="ml-2">halora / policy-check</span>
+          </span>
+          <span className="hidden items-center gap-2 sm:flex">
+            <span className="status-dot" aria-hidden />
+            halora-account
+          </span>
+        </div>
 
-      <div className="mt-10 grid gap-10 md:mt-12 lg:grid-cols-12">
-        <div
-          id={resultId}
-          data-ui
-          data-reveal
-          style={{ ['--i' as string]: 1 }}
-          className="max-w-[560px] rounded-[var(--radius-lg)] bg-carbon-2 p-5 text-paper sm:p-6 lg:col-span-6"
-        >
-          <p className="text-small text-paper/75">
-            Policy: 25 USDC per payment, 100 per day, your approval above 10, 4 allowed recipients.
-            41.30 USDC spent today.
+        <div className="p-4 sm:p-6">
+          <p className="font-mono text-[0.8125rem] leading-relaxed text-mist">
+            <span className="text-dim">policy</span> per_tx=25 daily=100 approval&gt;10 allowlist=4
+            spent_today=41.30
           </p>
 
-          <div aria-live="polite" className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <label htmlFor={inputId} className="sr-only">
+            A payment your agent wants to make
+          </label>
+          <div className="mt-5 flex items-center gap-3 rounded-[var(--radius-md)] border border-night-line-2 bg-night px-4 py-3 transition-[border-color,box-shadow] duration-[var(--t-hover)] focus-within:border-signal focus-within:shadow-[0_0_0_3px_rgb(45_245_180/0.15)]">
+            <span aria-hidden className="font-mono text-[1.25rem] text-signal sm:text-[1.5rem]">
+              &gt;
+            </span>
+            <input
+              ref={inputRef}
+              id={inputId}
+              name="payment"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              spellCheck={false}
+              autoComplete="off"
+              autoCapitalize="off"
+              enterKeyHint="done"
+              aria-describedby={resultId}
+              placeholder="2 USDC to Searchwise…"
+              className="min-w-0 flex-1 bg-transparent font-mono text-[1.125rem] text-frost caret-signal outline-none placeholder:text-dim sm:text-[1.5rem]"
+            />
+          </div>
+
+          <div id={resultId} aria-live="polite" className="mt-6">
             {verdict.kind === 'empty' ? (
-              <p className="text-lead font-semibold tracking-[-0.02em] text-paper/80">
-                Waiting for a payment
+              <p className="font-mono text-[0.9375rem] text-mist">
+                waiting for a payment<span className="animate-blink">_</span>
               </p>
             ) : (
               <>
-                <p
-                  key={replayKey}
-                  className={cn(
-                    'animate-rise rounded-[var(--radius-md)] px-3 py-1.5 text-lead leading-tight font-semibold tracking-[-0.02em]',
-                    TONE[verdict.kind],
-                  )}
-                >
-                  {HEADLINE[verdict.kind]}
-                </p>
-                <p className="tabular text-body text-paper/85">
-                  {formatDemoUsdc(verdict.amount)} to {verdict.recipientLabel}
-                </p>
-              </>
-            )}
-          </div>
-
-          {verdict.kind !== 'empty' && (
-            <ol key={replayKey} className="mt-5 space-y-2.5" aria-label="Checks, in order">
-              {verdict.checks.map((c, i) => (
-                <li
-                  key={c.id}
-                  className="animate-rise flex items-start gap-3"
-                  style={{ animationDelay: `${i * 70 + 80}ms` }}
-                >
+                <ol key={replayKey} className="space-y-2.5 font-mono" aria-label="Checks, in order">
+                  {verdict.checks.map((c, i) => {
+                    const status =
+                      c.state === 'pass'
+                        ? { text: 'PASS', tone: 'text-signal' }
+                        : c.state === 'skip'
+                          ? { text: 'SKIP', tone: 'text-dim' }
+                          : verdict.kind === 'approval'
+                            ? { text: 'HELD', tone: 'text-held' }
+                            : { text: 'FAIL', tone: 'text-deny' };
+                    return (
+                      <li
+                        key={c.id}
+                        className="animate-rise flex items-baseline gap-3 text-[0.875rem] sm:text-[0.9375rem]"
+                        style={{ animationDelay: `${i * 80 + 60}ms` }}
+                      >
+                        <span className="text-dim">[{String(i + 1).padStart(2, '0')}]</span>
+                        <span className="min-w-0">
+                          <span className={c.state === 'skip' ? 'text-dim' : 'text-frost'}>
+                            {c.label}
+                          </span>
+                          <span className="block text-[0.8125rem] text-mist">
+                            {c.state === 'skip' ? 'not checked after a failure' : c.detail}
+                          </span>
+                        </span>
+                        <span
+                          aria-hidden
+                          className="mx-1 hidden flex-1 self-center border-b border-dotted border-night-line-2 sm:block"
+                        />
+                        <span className={cn('ml-auto shrink-0 font-semibold', status.tone)}>
+                          {status.text}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ol>
+                <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-night-line pt-5">
                   <span
+                    key={replayKey}
                     className={cn(
-                      'mt-0.5 grid size-6 shrink-0 place-items-center rounded-[var(--radius-sm)]',
-                      c.state === 'pass' && 'bg-allow text-white',
-                      c.state === 'fail' && verdict.kind === 'approval' && 'bg-signal text-carbon',
-                      c.state === 'fail' && verdict.kind !== 'approval' && 'bg-deny text-white',
-                      c.state === 'skip' && 'bg-carbon text-paper/60',
+                      'animate-rise rounded-[var(--radius-sm)] px-2.5 py-1 font-mono text-[0.875rem] font-semibold',
+                      VERDICT[verdict.kind].tone,
                     )}
                   >
-                    {c.state === 'pass' ? (
-                      <Check className="size-3.5" aria-hidden />
-                    ) : c.state === 'fail' ? (
-                      <X className="size-3.5" aria-hidden />
-                    ) : (
-                      <Minus className="size-3.5" aria-hidden />
-                    )}
-                    <span className="sr-only">
-                      {c.state === 'pass'
-                        ? 'Passed'
-                        : c.state === 'fail'
-                          ? 'Failed'
-                          : 'Not checked'}
-                    </span>
+                    {VERDICT[verdict.kind].label}
                   </span>
-                  <span className="min-w-0">
-                    <span
-                      className={cn(
-                        'block text-body leading-snug',
-                        c.state === 'skip' ? 'text-paper/60' : 'text-paper',
-                      )}
-                    >
-                      {c.label}
-                    </span>
-                    <span className="tabular block text-small text-paper/70">
-                      {c.state === 'skip' ? 'Not checked after a failure' : c.detail}
-                    </span>
+                  <span className="font-mono text-[0.9375rem] text-frost">
+                    {formatDemoUsdc(verdict.amount)} to {verdict.recipientLabel}
                   </span>
-                </li>
-              ))}
-            </ol>
-          )}
-
-          <p className="mt-5 text-body leading-relaxed text-paper">
-            {verdict.kind !== 'empty' && verdict.code && (
-              <code className="mr-2 rounded-[var(--radius-sm)] bg-carbon px-1.5 py-0.5 font-mono text-small text-signal">
-                {verdict.code}
-              </code>
-            )}
-            {explain(verdict, deferred)}
-          </p>
-        </div>
-
-        <div className="lg:col-span-5 lg:col-start-8 lg:self-end">
-          <p data-reveal style={{ ['--i' as string]: 2 }} className="text-body text-paper/80">
-            Or try one of these:
-          </p>
-          <ul className="mt-3 flex flex-wrap gap-2 lg:flex-col lg:gap-1">
-            {DEMO_EXAMPLES.map((example, i) => (
-              <li key={example} data-reveal style={{ ['--i' as string]: 3 + i }}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setText(example);
-                    inputRef.current?.focus();
-                  }}
-                  aria-pressed={text === example}
-                  className={cn(
-                    'min-h-11 rounded-[var(--radius-md)] px-3 text-left text-body transition-[background-color,color,transform] duration-[var(--t-hover)] active:scale-[0.98] lg:px-0 lg:hover:translate-x-1',
-                    text === example
-                      ? 'bg-signal text-carbon lg:bg-transparent lg:text-signal'
-                      : 'bg-carbon-2 text-paper hover:text-signal lg:bg-transparent',
+                  {verdict.code && (
+                    <code className="font-mono text-[0.8125rem] text-mist">{verdict.code}</code>
                   )}
-                >
-                  {example}
-                </button>
-              </li>
-            ))}
-          </ul>
+                </div>
+              </>
+            )}
+            <p className="mt-4 text-body leading-relaxed text-mist">{explain(verdict, deferred)}</p>
+          </div>
         </div>
+      </div>
+
+      <div className="lg:col-span-4">
+        <p data-reveal style={{ ['--i' as string]: 4 }} className="term-label">
+          Try one
+        </p>
+        <ul className="mt-4 grid gap-2">
+          {DEMO_EXAMPLES.map((example, i) => (
+            <li key={example} data-reveal style={{ ['--i' as string]: 5 + i }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setText(example);
+                  inputRef.current?.focus();
+                }}
+                aria-pressed={text === example}
+                className={cn(
+                  'group flex min-h-12 w-full items-center gap-3 rounded-[var(--radius-md)] border px-4 text-left font-mono text-[0.875rem] transition-[border-color,background-color,color,transform] duration-[var(--t-hover)] active:scale-[0.99]',
+                  text === example
+                    ? 'border-signal/60 bg-signal/10 text-frost'
+                    : 'border-night-line bg-night-1 text-mist hover:border-night-line-2 hover:text-frost',
+                )}
+              >
+                <span aria-hidden className="text-signal">
+                  &gt;
+                </span>
+                {example}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <p
+          data-reveal
+          style={{ ['--i' as string]: 9 }}
+          className="mt-6 text-small leading-relaxed text-mist"
+        >
+          The last example is a prompt injection. The agent may believe it. The contract only sees
+          an unknown recipient.
+        </p>
       </div>
     </div>
   );

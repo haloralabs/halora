@@ -1,50 +1,60 @@
 import { BuiltWith } from '@/components/marketing/built-with';
 import { Closing } from '@/components/marketing/closing';
 import { Developers } from '@/components/marketing/developers';
-import { GuaranteeFields } from '@/components/marketing/guarantee-fields';
 import { Hero } from '@/components/marketing/hero';
+import { HowItWorks } from '@/components/marketing/how-it-works';
 import { RevealObserver } from '@/components/marketing/reveal-observer';
-import { SetupBar } from '@/components/marketing/setup-bar';
+import { RulesGrid } from '@/components/marketing/rules-grid';
+import { SectionHeader } from '@/components/marketing/section-header';
 import { SiteFooter } from '@/components/marketing/site-footer';
 import { SiteHeader } from '@/components/marketing/site-header';
 import { VerdictDemo } from '@/components/marketing/verdict-demo';
 
 /*
- * The page is a series of short statements, each on its own field of colour, each with its proof:
- *   1. Agents pay, you decide (hero, with the live halo inside the sentence).
- *   2. Try it: type a payment and watch the real policy checks decide (the live thing).
- *   3. Four guarantees, one per field.
- *   4. Minutes to set up (the product's progress bar).
- *   5. A few lines in your agent (the code).
- *   6. Built with Stellar and friends, and what Halora does not do.
- *   7. The close, colours inverted. 8. The footer: the install command as the display line.
+ * Halora's landing, a sibling of Akkuea's: the same night ground and terminal vernacular, with
+ * its own light (the aurora) and its own material (the halo, the live policy check).
+ *   1. Hero: agents pay, within limits, you decide. Live halo inside the sentence, payment ticker.
+ *   2. [01] Try to break the rules: a terminal running the real policy checks.
+ *   3. [02] The six rules the contract enforces.
+ *   4. [03] Minutes to set up: steps with their commands.
+ *   5. [04] For developers: the agent session and the code.
+ *   6. [05] Built on Stellar, and what Halora does not do.
+ *   7. The close, then the footer with the install command.
  */
 export default function LandingPage() {
   return (
-    <>
+    <div className="bg-night text-frost">
       <SiteHeader />
       <main id="main" className="overflow-x-clip">
         <Hero />
         <section
           id="try"
-          data-chapter="carbon"
           data-reveal-root
           aria-labelledby="try-title"
-          className="chapter-carbon flex min-h-[88svh] scroll-mt-0 flex-col justify-center py-28 md:py-36"
+          className="relative bg-night px-4 py-28 md:px-8 md:py-36"
         >
-          <h2 id="try-title" className="sr-only">
-            Try a payment
-          </h2>
-          <VerdictDemo />
+          <div className="mx-auto max-w-[1400px]">
+            <SectionHeader
+              index="01"
+              label="Live policy check"
+              id="try-title"
+              title="Try to break the rules."
+              dimmed="The contract holds."
+            >
+              Type what an agent wants to pay. These are the real checks the SDK runs before
+              signing, in the same order as the account contract.
+            </SectionHeader>
+            <VerdictDemo />
+          </div>
         </section>
-        <GuaranteeFields />
-        <SetupBar />
+        <RulesGrid />
+        <HowItWorks />
         <Developers />
         <BuiltWith />
         <Closing />
       </main>
       <SiteFooter />
       <RevealObserver />
-    </>
+    </div>
   );
 }

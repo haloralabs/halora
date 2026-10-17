@@ -5,7 +5,7 @@ type MarkProps = {
   className?: string;
   /** Decorative by default. Pass a title when the mark stands alone as a link or image. */
   title?: string;
-  /** Ring colour. Defaults to signal yellow; pass currentColor on a signal-yellow field. */
+  /** Ring colour. Defaults to the aurora signal. */
   ring?: string;
 };
 
@@ -13,7 +13,7 @@ type MarkProps = {
  * The Halora mark: a ring (the policy) around a solid core (the agent). The ring has a deliberate
  * gap at the top right, the one place where the owner's approval can let a larger payment through.
  */
-export function HaloMark({ size = 28, className, title, ring = 'var(--signal)' }: MarkProps) {
+export function HaloMark({ size = 28, className, title, ring = 'var(--aurora)' }: MarkProps) {
   return (
     <svg
       width={size}

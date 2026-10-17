@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 
 /**
  * The live fragment that sits inside the hero sentence, where a word would be: the halo checking
- * a stream of payments. Sized in em so it scales with the headline. The ticker shows real verdict
- * kinds from the demo policy; it pauses when the tab is hidden and stays still under reduced
- * motion.
+ * a stream of payments. Sized in em so it scales with the headline. Hover pauses it, it stops on
+ * its own after a few loops (WCAG 2.2.2), and it stays still under reduced motion.
  */
 
 const STREAM = [
@@ -17,14 +16,14 @@ const STREAM = [
   { amount: '1.40', to: 'Weatherly', verdict: 'allowed' },
 ] as const;
 
-const VERDICT_LABEL = { allowed: 'Allowed', held: 'Waits for you', denied: 'Denied' } as const;
+const VERDICT_LABEL = { allowed: 'ALLOWED', held: 'HELD', denied: 'DENIED' } as const;
 const VERDICT_TONE = {
-  allowed: 'bg-paper text-carbon',
-  held: 'bg-signal text-carbon',
-  denied: 'bg-deny text-white',
+  allowed: 'text-signal',
+  held: 'text-held',
+  denied: 'text-deny',
 } as const;
+const CORE = { allowed: 'var(--aurora)', held: 'var(--held)', denied: 'var(--deny)' } as const;
 
-// Ambient motion stops on its own after a few loops (WCAG 2.2.2); hover pauses it.
 const MAX_STEPS = STREAM.length * 4;
 
 export function LiveHalo() {
@@ -63,18 +62,18 @@ export function LiveHalo() {
       aria-label="Halora checking a live stream of agent payments"
       onPointerEnter={() => setPaused(true)}
       onPointerLeave={() => setPaused(false)}
-      className="relative mx-[0.06em] inline-flex h-[0.72em] w-[1.35em] items-center gap-[0.09em] overflow-hidden rounded-[0.05em] bg-carbon px-[0.1em] align-baseline text-paper md:w-[2.3em]"
+      className="relative mx-[0.06em] inline-flex h-[0.72em] w-[1.3em] items-center gap-[0.1em] overflow-hidden rounded-[0.08em] border border-night-line-2 bg-night-1 px-[0.1em] align-baseline text-frost md:w-[2.4em]"
     >
       <svg viewBox="0 0 40 40" className="h-[0.48em] w-[0.48em] shrink-0" aria-hidden>
-        <circle cx="20" cy="20" r="15" stroke="var(--carbon-2)" strokeWidth="5" fill="none" />
+        <circle cx="20" cy="20" r="15" stroke="var(--night-line-2)" strokeWidth="4" fill="none" />
         <g
           className="animate-halo-spin"
           style={{ transformOrigin: '20px 20px', transformBox: 'view-box' }}
         >
           <path
             d="M33.6 12.4A15 15 0 1 1 26.3 6.4"
-            stroke="var(--signal)"
-            strokeWidth="5"
+            stroke="var(--aurora)"
+            strokeWidth="4"
             fill="none"
           />
         </g>
@@ -82,25 +81,17 @@ export function LiveHalo() {
           cx="20"
           cy="20"
           r="5.5"
-          className={
-            item.verdict === 'denied'
-              ? 'fill-deny'
-              : item.verdict === 'held'
-                ? 'fill-signal'
-                : 'fill-paper'
-          }
+          fill={CORE[item.verdict]}
           style={{ transition: 'fill 300ms var(--ease-out)' }}
         />
       </svg>
-      <span className="hidden min-w-0 flex-1 flex-col justify-center text-[0.125em] leading-[1.15] font-medium tracking-[-0.01em] md:flex">
-        <span key={`a${i}`} className="animate-rise tabular truncate text-[1.6em] font-semibold">
+      <span className="hidden min-w-0 flex-1 flex-col justify-center font-mono text-[0.115em] leading-[1.2] tracking-normal md:flex">
+        <span key={`a${i}`} className="animate-rise truncate text-[1.55em] font-medium text-frost">
           {item.amount} USDC
         </span>
-        <span key={`b${i}`} className="animate-rise mt-[0.35em] flex items-center gap-[0.5em]">
-          <span className="truncate text-paper/80">to {item.to}</span>
-          <span
-            className={`shrink-0 rounded-[0.25em] px-[0.5em] py-[0.15em] ${VERDICT_TONE[item.verdict]}`}
-          >
+        <span key={`b${i}`} className="animate-rise mt-[0.3em] flex items-center gap-[0.6em]">
+          <span className="truncate text-mist">to {item.to}</span>
+          <span className={`shrink-0 font-semibold ${VERDICT_TONE[item.verdict]}`}>
             {VERDICT_LABEL[item.verdict]}
           </span>
         </span>

@@ -10,15 +10,18 @@ const TABS = [
   { id: 'mcp', label: 'MCP server', file: 'mcp.json', code: () => mcpSnippet(PLACEHOLDER) },
 ] as const;
 
-/** The integration code, shown as the product's own editor fragment on a carbon field. */
+/** The integration code, shown as the product's own editor fragment on the night field. */
 export function DevTabs() {
   const [active, setActive] = useState<(typeof TABS)[number]['id']>('sdk');
   const tab = TABS.find((t) => t.id === active)!;
   const code = tab.code();
 
   return (
-    <div data-ui className="overflow-hidden rounded-[var(--radius-lg)] bg-carbon-2 text-paper">
-      <div className="flex items-center justify-between gap-2 bg-[#232429] px-2 pt-2">
+    <div
+      data-ui
+      className="overflow-hidden rounded-[var(--radius-lg)] border border-night-line bg-night-1 text-frost"
+    >
+      <div className="flex items-center justify-between gap-2 border-b border-night-line px-2 pt-2">
         <div role="tablist" aria-label="Integration options" className="flex gap-1">
           {TABS.map((t) => (
             <button
@@ -41,8 +44,10 @@ export function DevTabs() {
                 document.getElementById(`tab-${next.id}`)?.focus();
               }}
               className={cn(
-                'min-h-11 rounded-t-[var(--radius-md)] px-4 text-[0.9375rem] font-medium transition-colors duration-[var(--t-hover)]',
-                active === t.id ? 'bg-carbon-2 text-paper' : 'text-paper/70 hover:text-paper',
+                '-mb-px min-h-11 px-4 font-mono text-[0.875rem] transition-colors duration-[var(--t-hover)]',
+                active === t.id
+                  ? 'border-b-2 border-signal text-frost'
+                  : 'text-mist hover:text-frost',
               )}
             >
               {t.label}
@@ -59,21 +64,21 @@ export function DevTabs() {
             <CopyButton
               value={installSnippet()}
               label="Copy install command"
-              className="text-paper/75 hover:bg-carbon hover:text-paper"
+              className="text-mist hover:bg-night-2 hover:text-frost"
             />
           </div>
         )}
-        <div className="flex items-center justify-between px-5 pt-4 text-[0.875rem] text-paper/70">
+        <div className="flex items-center justify-between px-5 pt-4 text-[0.8125rem] text-mist">
           <span>{tab.file}</span>
           <CopyButton
             value={code}
             label={`Copy ${tab.file}`}
-            className="text-paper/75 hover:bg-carbon hover:text-paper"
+            className="text-mist hover:bg-night-2 hover:text-frost"
           />
         </div>
         <pre
           key={tab.id}
-          className="animate-rise max-h-[460px] overflow-auto px-5 pt-2 pb-6 font-mono text-[0.8125rem] leading-[1.7] text-paper/90 sm:text-[0.875rem]"
+          className="animate-rise max-h-[460px] overflow-auto px-5 pt-2 pb-6 font-mono text-[0.8125rem] leading-[1.7] text-frost/90 sm:text-[0.875rem]"
         >
           <code>{code}</code>
         </pre>

@@ -48,7 +48,7 @@ export default function DashboardHome() {
         </Callout>
       )}
 
-      <dl className="grid grid-cols-1 gap-8 rounded-[var(--radius-xl)] bg-surface p-6 sm:grid-cols-3 sm:p-8">
+      <dl className="grid grid-cols-1 gap-8 rounded-[var(--radius-xl)] border border-line bg-surface p-6 sm:grid-cols-3 sm:p-8">
         <Stat
           label="Total balance"
           value={agents ? formatAmount(totals.balance) : '…'}

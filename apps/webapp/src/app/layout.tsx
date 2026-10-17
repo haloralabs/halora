@@ -29,10 +29,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f0f0eb' },
-    { media: '(prefers-color-scheme: dark)', color: '#111214' },
-  ],
+  themeColor: '#000000',
 };
 
 // Runs before first paint: marks that scripts run (entrance animations only hide content under
@@ -48,7 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="min-h-dvh">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-cobalt focus:px-4 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-signal focus:px-4 focus:py-2 focus:text-signal-ink"
         >
           Skip to content
         </a>

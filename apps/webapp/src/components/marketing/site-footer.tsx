@@ -6,10 +6,26 @@ import { useEffect, useState } from 'react';
 import { Logo } from '@/components/brand/logo';
 import { installSnippet } from '@/lib/snippets';
 
-/**
- * The footer is a designed close: on a cobalt field, the way to start is the display line itself,
- * the install command, as one button that copies it.
- */
+const COLUMNS = [
+  {
+    title: 'Product',
+    links: [
+      { href: '#try', label: 'Try a payment' },
+      { href: '#rules', label: 'Rules' },
+      { href: '#how-it-works', label: 'How it works' },
+    ],
+  },
+  {
+    title: 'Build',
+    links: [
+      { href: '#developers', label: 'SDK and MCP' },
+      { href: '/dashboard', label: 'Dashboard' },
+      { href: '/dashboard/agents/new', label: 'New agent wallet' },
+    ],
+  },
+];
+
+/** Footer: Akkuea's column layout, with Halora's install command as the closing line. */
 export function SiteFooter() {
   const [copied, setCopied] = useState(false);
   useEffect(() => {
@@ -19,27 +35,41 @@ export function SiteFooter() {
   }, [copied]);
 
   return (
-    <footer
-      data-chapter="cobalt"
-      className="chapter-cobalt flex min-h-[80svh] flex-col justify-between px-4 pt-8 pb-6 md:min-h-[90svh] md:px-8 md:pt-10"
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex flex-col gap-3 text-small md:flex-row md:items-center md:gap-12">
-          <Logo size={22} ring="var(--signal)" />
-          <p className="max-w-[40ch]">
-            Wallets with rules for AI agents, on Stellar. Testnet pilot.
-          </p>
-          <p className="max-w-[40ch]">Halora never holds your keys.</p>
+    <footer className="border-t border-night-line bg-night px-4 pt-16 pb-8 text-frost md:px-8">
+      <div className="mx-auto max-w-[1400px]">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
+          <div className="md:col-span-6">
+            <Logo size={24} />
+            <p className="mt-4 max-w-[40ch] text-body leading-relaxed text-mist">
+              Wallets with rules for AI agents, on Stellar. Testnet pilot. Halora never holds your
+              keys.
+            </p>
+            <p className="mt-6 inline-flex items-center gap-3 rounded-full border border-night-line px-3 py-1.5 font-mono text-[0.8125rem] text-mist">
+              <span className="status-dot" aria-hidden />
+              Running on Stellar testnet
+            </p>
+          </div>
+          {COLUMNS.map((col) => (
+            <nav key={col.title} aria-label={col.title} className="md:col-span-3">
+              <p className="font-mono text-[0.8125rem] tracking-[0.08em] text-dim uppercase">
+                {col.title}
+              </p>
+              <ul className="mt-4 space-y-1">
+                {col.links.map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      className="inline-flex min-h-11 items-center text-body text-mist transition-colors duration-[var(--t-hover)] hover:text-signal"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
         </div>
-        <a
-          href="#main"
-          className="min-h-11 self-start whitespace-nowrap underline decoration-2 underline-offset-4 hover:decoration-signal"
-        >
-          Back to top
-        </a>
-      </div>
 
-      <div className="mt-24">
         <button
           type="button"
           onClick={async () => {
@@ -50,20 +80,23 @@ export function SiteFooter() {
               setCopied(false);
             }
           }}
-          className="group flex w-full items-end justify-between gap-4 text-left transition-transform duration-[var(--t-press)] active:scale-[0.99]"
           aria-label={`Copy the install command: ${installSnippet()}`}
+          className="group mt-20 flex w-full items-center justify-between gap-4 rounded-[var(--radius-lg)] border border-night-line bg-night-1 px-5 py-6 text-left transition-[border-color,background-color] duration-[var(--t-hover)] hover:border-signal/50 hover:bg-night-2 md:px-8 md:py-8"
         >
           <span
             translate="no"
-            className="display text-[11.4vw] break-words md:text-[9vw] 2xl:text-[9.5rem]"
+            className="font-mono text-[1.25rem] break-all text-frost sm:text-[2rem] md:text-[3rem]"
           >
-            bun add <span className="whitespace-nowrap">@halora/sdk</span>
+            <span className="text-signal">$</span> {installSnippet()}
+            <span aria-hidden className="animate-blink text-signal">
+              _
+            </span>
           </span>
-          <span className="mb-[1.2vw] grid size-12 shrink-0 place-items-center rounded-[var(--radius-md)] bg-white text-cobalt transition-colors duration-[var(--t-hover)] group-hover:bg-signal group-hover:text-carbon md:size-16">
+          <span className="grid size-12 shrink-0 place-items-center rounded-[var(--radius-md)] border border-night-line-2 text-mist transition-colors duration-[var(--t-hover)] group-hover:border-signal group-hover:text-signal">
             {copied ? (
-              <Check className="size-6" aria-hidden />
+              <Check className="size-5" aria-hidden />
             ) : (
-              <Copy className="size-6" aria-hidden />
+              <Copy className="size-5" aria-hidden />
             )}
           </span>
         </button>
@@ -71,20 +104,15 @@ export function SiteFooter() {
           {copied ? 'Install command copied' : ''}
         </p>
 
-        <div className="mt-10 flex flex-col gap-2 text-small md:flex-row md:items-center md:justify-between">
-          <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-1">
-            <Link className="min-h-11 content-center hover:underline" href="/dashboard">
-              Dashboard
-            </Link>
-            <a className="min-h-11 content-center hover:underline" href="#developers">
-              Developers
-            </a>
-            <a className="min-h-11 content-center hover:underline" href="#how-it-works">
-              How it works
-            </a>
-          </nav>
-          <p>Set in Switzer by the Indian Type Foundry.</p>
-          <p>Stellar testnet, 2026</p>
+        <div className="mt-12 flex flex-col gap-2 border-t border-night-line pt-6 font-mono text-[0.8125rem] text-dim md:flex-row md:justify-between">
+          <p>[HALORA_V0.1] Stellar testnet, 2026</p>
+          <p>Set in Switzer and JetBrains Mono.</p>
+          <a
+            href="#main"
+            className="inline-flex min-h-11 items-center hover:text-signal md:min-h-0"
+          >
+            Back to top ↑
+          </a>
         </div>
       </div>
     </footer>

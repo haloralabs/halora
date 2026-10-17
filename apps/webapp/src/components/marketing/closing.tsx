@@ -1,55 +1,73 @@
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
-/** The close: the page's colours flip and the opening idea returns, now addressed to you. */
+/** The close: the aurora returns over the night, and the opening idea is addressed to you. */
 export function Closing() {
   return (
     <section
-      data-chapter="carbon"
       data-reveal-root
       aria-labelledby="close-title"
-      className="chapter-carbon flex min-h-[80svh] flex-col justify-between px-4 pt-24 pb-6 md:min-h-[92svh] md:px-8 md:pt-32 md:pb-10"
+      className="relative isolate overflow-hidden bg-night px-4 py-32 text-frost md:px-8 md:py-44"
     >
-      <h2
-        id="close-title"
-        className="display text-[13vw] text-signal md:text-[9vw] 2xl:text-[9.5rem]"
-      >
-        <span className="line-mask">
-          <span data-reveal style={{ ['--rise' as string]: '0.6em' }} className="block">
-            Give your agent
+      <div aria-hidden className="absolute inset-0 -z-10">
+        <div className="stars absolute inset-0 opacity-70" />
+        <div className="aurora top-[20%]! opacity-45!">
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+      <div className="mx-auto max-w-[1400px] text-center">
+        <h2
+          id="close-title"
+          className="display mx-auto max-w-[14ch] text-[13vw] md:text-[7.5vw] 2xl:text-[8rem]"
+        >
+          <span className="line-mask">
+            <span data-reveal style={{ ['--rise' as string]: '0.6em' }} className="block">
+              Give your agent
+            </span>
           </span>
-        </span>
-        <span className="line-mask">
-          <span
-            data-reveal
-            style={{ ['--i' as string]: 1, ['--rise' as string]: '0.6em' }}
-            className="block"
-          >
-            a halo.
+          <span className="line-mask">
+            <span
+              data-reveal
+              style={{ ['--i' as string]: 1, ['--rise' as string]: '0.6em' }}
+              className="block"
+            >
+              <span className="aurora-text">a halo.</span>
+            </span>
           </span>
-        </span>
-      </h2>
-      <div className="mt-16 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        </h2>
         <p
           data-reveal
           style={{ ['--i' as string]: 2 }}
-          className="max-w-[40ch] text-body leading-relaxed text-paper md:text-lead"
+          className="mx-auto mt-8 max-w-[46ch] text-lead leading-relaxed text-mist"
         >
           Create a wallet, set its rules and connect your agent on Stellar testnet. No sign-up: a
           Stellar wallet is your login, or explore with demo data.
         </p>
-        <Link
+        <div
           data-reveal
           style={{ ['--i' as string]: 3 }}
-          href="/dashboard/agents/new"
-          className="group inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-[var(--radius-md)] bg-cobalt px-8 text-body font-semibold text-white transition-[background-color,transform] duration-[var(--t-hover)] hover:bg-cobalt-hover active:scale-[0.97] md:w-auto"
+          className="mt-10 flex flex-col justify-center gap-3 sm:flex-row"
         >
-          Create an agent wallet
-          <ArrowRight
-            aria-hidden
-            className="size-5 transition-transform duration-[var(--t-hover)] group-hover:translate-x-1"
-          />
-        </Link>
+          <Link
+            href="/dashboard/agents/new"
+            className="group inline-flex min-h-13 items-center justify-center gap-2 rounded-[var(--radius-md)] bg-signal px-7 text-body font-semibold text-signal-ink transition-[background-color,transform,box-shadow] duration-[var(--t-hover)] hover:bg-signal-hover hover:shadow-[0_0_32px_-4px_var(--aurora)] active:scale-[0.98]"
+          >
+            Create an agent wallet
+            <ArrowRight
+              aria-hidden
+              className="size-4 transition-transform duration-[var(--t-hover)] group-hover:translate-x-1"
+            />
+          </Link>
+          <Link
+            href="/dashboard"
+            className="group inline-flex min-h-13 items-center justify-center gap-2 rounded-[var(--radius-md)] border border-night-line-2 px-7 text-body font-semibold text-frost transition-[border-color,background-color,transform] duration-[var(--t-hover)] hover:border-signal/60 hover:bg-night-1 active:scale-[0.98]"
+          >
+            Explore the demo
+            <ArrowUpRight aria-hidden className="size-4" />
+          </Link>
+        </div>
       </div>
     </section>
   );

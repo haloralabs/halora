@@ -1,44 +1,50 @@
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
 import { LiveHalo } from './live-halo';
+import { PaymentTicker } from './payment-ticker';
 
 /**
- * Hero: two flat fields meet at a hard seam (the limit). The sentence sits across it and changes
- * ink where it crosses, as if the lower half were under the owner's control. The live halo sits
- * inside the sentence, between the agent and the payment, which is exactly where the account
- * contract sits.
- *
- * Line 2 carries its own deep-ink copy as a ::after (see .seam-ink in globals.css), clipped to the
- * part below the seam, so there is one headline element and nothing lies on top of it. Both lines
- * reveal from a mask on load.
+ * Hero: a night sky (stars, a fading grid, a slow aurora) over a three-line sentence. The live
+ * halo sits inside the first line, between the agent and the payment, exactly where the account
+ * contract sits. The structure is Akkuea's (status, headline, actions, stats, ticker, corner
+ * marks); the content and the light are Halora's.
  */
 
-// The seam crosses the upper third of line 2's capitals (measured on Switzer at leading 0.92).
-// Line 2 starts 0.92em down, so the cut inside line 2 is 1.47em - 0.92em = 0.55em.
-const SEAM = '1.47em';
+const FACTS = [
+  { value: '~5s', label: 'Settlement on Stellar' },
+  { value: '<$0.01', label: 'Network fee per payment' },
+  { value: '0', label: 'Keys held by Halora' },
+];
 
 export function Hero() {
   return (
     <section
       data-reveal-root
       aria-labelledby="hero-title"
-      className="relative isolate min-h-[130svh] overflow-hidden"
+      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-night text-frost"
     >
-      <div
-        aria-hidden
-        data-chapter="paper"
-        className="absolute inset-x-0 top-0 h-[46svh] bg-paper md:h-[50svh]"
-      />
-      <div
-        aria-hidden
-        data-chapter="signal"
-        className="absolute inset-x-0 top-[46svh] bottom-0 bg-signal md:top-[50svh]"
-      />
+      <div aria-hidden className="absolute inset-0 -z-10">
+        <div className="stars absolute inset-0 opacity-80" />
+        <div className="grid-night absolute inset-0 opacity-70" />
+        <div className="aurora">
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
 
-      <div className="absolute inset-x-0 top-[46svh] px-4 md:top-[50svh] md:px-8">
+      <div className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col justify-center px-4 pt-32 pb-16 md:px-8 md:pt-40">
+        <p
+          data-reveal
+          className="inline-flex w-fit items-center gap-3 rounded-full border border-night-line bg-night-1/80 px-4 py-2 font-mono text-[0.8125rem] tracking-[0.08em] text-mist uppercase"
+        >
+          <span className="status-dot animate-pulse-subtle" aria-hidden />
+          Live on Stellar testnet
+        </p>
+
         <h1
           id="hero-title"
-          className="display mx-auto max-w-[16ch] text-center text-[11.4vw] text-carbon md:max-w-none md:text-[9vw] 2xl:text-[9.5rem]"
-          style={{ marginTop: `-${SEAM}` }}
+          className="display mt-8 text-[12.2vw] md:text-[8.2vw] 2xl:text-[8.5rem]"
         >
           <span className="line-mask">
             <span data-line style={{ ['--i' as string]: 0 }}>
@@ -46,40 +52,88 @@ export function Hero() {
             </span>
           </span>
           <span className="line-mask">
-            <span
-              data-line
-              data-text="You decide."
-              className="seam-ink"
-              style={{ ['--i' as string]: 1, ['--cut' as string]: '0.55em' }}
-            >
-              You decide.
+            <span data-line style={{ ['--i' as string]: 1 }} className="text-dim">
+              Within limits.
+            </span>
+          </span>
+          <span className="line-mask">
+            <span data-line style={{ ['--i' as string]: 2 }}>
+              <span className="aurora-text">You decide.</span>
             </span>
           </span>
         </h1>
-      </div>
 
-      <div className="absolute inset-x-0 top-[calc(100svh-40px)] -translate-y-full px-5 text-center md:top-[calc(100svh-56px)]">
         <p
           data-reveal
           style={{ ['--i' as string]: 4 }}
-          className="mx-auto max-w-[30ch] text-body leading-snug font-medium text-carbon md:max-w-[38ch] md:text-lead"
+          className="mt-8 max-w-[52ch] text-lead leading-relaxed text-mist"
         >
           Halora gives every AI agent a Stellar wallet with limits it cannot break. Each payment is
-          checked on-chain before any money moves.
+          checked on-chain by the account contract{' '}
+          <span className="text-frost">before any money moves</span>.
         </p>
-        <a
+
+        <div
           data-reveal
           style={{ ['--i' as string]: 5 }}
-          href="#try"
-          className="group mt-5 inline-flex min-h-12 items-center gap-2 rounded-[var(--radius-md)] bg-carbon px-6 text-body font-semibold text-paper transition-[background-color,transform] duration-[var(--t-hover)] hover:bg-carbon-2 active:scale-[0.97]"
+          className="mt-10 flex flex-col gap-3 sm:flex-row"
         >
-          Try a payment
-          <ArrowDown
-            aria-hidden
-            className="size-4 transition-transform duration-[var(--t-hover)] group-hover:translate-y-0.5"
-          />
-        </a>
+          <a
+            href="#try"
+            className="group inline-flex min-h-13 items-center justify-center gap-2 rounded-[var(--radius-md)] bg-signal px-7 text-body font-semibold text-signal-ink transition-[background-color,transform,box-shadow] duration-[var(--t-hover)] hover:bg-signal-hover hover:shadow-[0_0_32px_-4px_var(--aurora)] active:scale-[0.98]"
+          >
+            Try a payment
+            <ArrowDown
+              aria-hidden
+              className="size-4 transition-transform duration-[var(--t-hover)] group-hover:translate-y-0.5"
+            />
+          </a>
+          <Link
+            href="/dashboard"
+            className="group inline-flex min-h-13 items-center justify-center gap-2 rounded-[var(--radius-md)] border border-night-line-2 px-7 text-body font-semibold text-frost transition-[border-color,background-color,transform] duration-[var(--t-hover)] hover:border-signal/60 hover:bg-night-1 active:scale-[0.98]"
+          >
+            Open the dashboard
+            <ArrowUpRight
+              aria-hidden
+              className="size-4 transition-transform duration-[var(--t-hover)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </Link>
+        </div>
+
+        <dl
+          data-reveal
+          style={{ ['--i' as string]: 6 }}
+          className="mt-16 flex flex-wrap gap-x-12 gap-y-6 border-t border-night-line pt-8"
+        >
+          {FACTS.map((f) => (
+            <div key={f.label} className="group">
+              <dd className="font-mono text-[1.75rem] font-medium tracking-tight text-frost transition-colors duration-[var(--t-hover)] group-hover:text-signal sm:text-[2rem]">
+                {f.value}
+              </dd>
+              <dt className="mt-1 font-mono text-[0.8125rem] tracking-[0.06em] text-mist uppercase">
+                {f.label}
+              </dt>
+            </div>
+          ))}
+        </dl>
       </div>
+
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-24 left-8 hidden font-mono text-[0.8125rem] text-dim lg:block"
+      >
+        <div>[001]</div>
+        <div className="mt-1">HALORA_V0.1</div>
+      </div>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-8 bottom-24 hidden text-right font-mono text-[0.8125rem] text-dim lg:block"
+      >
+        <div>SCROLL</div>
+        <div className="mt-1 animate-bounce motion-reduce:animate-none">↓</div>
+      </div>
+
+      <PaymentTicker />
     </section>
   );
 }

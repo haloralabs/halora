@@ -16,9 +16,9 @@ export function Stat({
 }) {
   return (
     <div className={cn('flex flex-col gap-1', className)}>
-      <dt className="text-sm text-subtle">{label}</dt>
+      <dt className="font-mono text-[0.75rem] tracking-[0.06em] text-subtle uppercase">{label}</dt>
       <dd className="flex items-baseline gap-1.5">
-        <span className="tabular text-[2.25rem] leading-none font-semibold tracking-[-0.035em] text-fg">
+        <span className="font-mono text-[2rem] leading-none font-medium tracking-[-0.02em] text-fg">
           {value}
         </span>
         {unit && <span className="text-sm font-medium text-subtle">{unit}</span>}

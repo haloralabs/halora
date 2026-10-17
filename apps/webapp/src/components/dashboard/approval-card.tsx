@@ -65,7 +65,7 @@ export function ApprovalCard({
   return (
     <article
       aria-label={`${formatAmount(approval.amount)} USDC request from ${agentLabel}`}
-      className="rounded-[var(--radius-xl)] bg-surface p-5 sm:p-6"
+      className="rounded-[var(--radius-xl)] border border-line bg-surface p-5 sm:p-6"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -73,7 +73,7 @@ export function ApprovalCard({
             <span className="font-medium text-fg">{agentLabel}</span> wants to pay
           </p>
           <p className="mt-1 flex items-baseline gap-2">
-            <span className="tabular text-[2.75rem] leading-none font-semibold tracking-[-0.045em] text-fg">
+            <span className="font-mono text-[2.5rem] leading-none font-medium tracking-[-0.03em] text-fg">
               {formatAmount(approval.amount)}
             </span>
             <span className="text-sm font-medium text-subtle">USDC</span>

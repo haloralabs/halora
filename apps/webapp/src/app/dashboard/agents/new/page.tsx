@@ -93,7 +93,7 @@ export default function NewAgentPage() {
     return (
       <div className="mx-auto max-w-2xl space-y-8">
         <div className="text-center">
-          <span className="mx-auto grid size-14 place-items-center rounded-[var(--radius-lg)] bg-signal text-carbon">
+          <span className="mx-auto grid size-14 place-items-center rounded-[var(--radius-lg)] bg-signal text-signal-ink">
             <CheckCircle2 className="size-6" aria-hidden />
           </span>
           <h1 className="mt-6 text-[2.5rem] leading-[1] font-semibold tracking-[-0.045em] text-fg sm:text-5xl">

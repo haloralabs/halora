@@ -173,7 +173,7 @@ export default function AgentPage() {
               valueText={`${formatAmount(spentToday)} of ${formatAmount(policy.dailyLimit)} USDC spent today`}
             >
               <div>
-                <p className="tabular text-[2rem] leading-none font-semibold tracking-[-0.04em] text-fg">
+                <p className="font-mono text-[1.75rem] leading-none font-medium tracking-[-0.02em] text-fg">
                   {formatAmount(spentToday)}
                 </p>
                 <p className="mt-1.5 text-sm text-subtle">
@@ -183,15 +183,19 @@ export default function AgentPage() {
             </HaloMeter>
             <dl className="grid w-full grid-cols-2 gap-x-6 gap-y-5 xl:grid-cols-1">
               <div>
-                <dt className="text-sm text-subtle">Balance</dt>
-                <dd className="tabular mt-1 text-[1.75rem] leading-none font-semibold tracking-[-0.035em] text-fg">
+                <dt className="font-mono text-[0.75rem] tracking-[0.06em] text-subtle uppercase">
+                  Balance
+                </dt>
+                <dd className="mt-1.5 font-mono text-[1.5rem] leading-none font-medium tracking-[-0.02em] text-fg">
                   {balance === null ? 'Unavailable' : formatAmount(balance)}{' '}
                   <span className="text-sm font-medium tracking-normal text-subtle">USDC</span>
                 </dd>
               </div>
               <div>
-                <dt className="text-sm text-subtle">Left today</dt>
-                <dd className="tabular mt-1 text-[1.75rem] leading-none font-semibold tracking-[-0.035em] text-fg">
+                <dt className="font-mono text-[0.75rem] tracking-[0.06em] text-subtle uppercase">
+                  Left today
+                </dt>
+                <dd className="mt-1.5 font-mono text-[1.5rem] leading-none font-medium tracking-[-0.02em] text-fg">
                   {formatAmount(remaining)}{' '}
                   <span className="text-sm font-medium tracking-normal text-subtle">USDC</span>
                 </dd>
@@ -300,7 +304,7 @@ export default function AgentPage() {
 function PolicyRow({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="flex items-baseline justify-between gap-4 border-b border-line/70 pb-3 sm:block sm:border-0 sm:pb-0">
-      <dt className="text-sm text-subtle">{label}</dt>
+      <dt className="font-mono text-[0.75rem] tracking-[0.06em] text-subtle uppercase">{label}</dt>
       <dd className="tabular font-medium text-fg sm:mt-0.5">{value}</dd>
     </div>
   );

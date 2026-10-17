@@ -1,88 +1,85 @@
 @import 'tailwindcss';
 
 /*
- * Halora design tokens. Documented in docs/design-system/foundations.md.
+ * Halora design tokens ("Aurora"). Documented in docs/design-system/foundations.md.
  *
- * The identity is a safety signal: carbon and signal yellow are the vernacular of things that
- * protect you (hazard marking, instrument panels), cobalt is the one colour that means "act",
- * and a hard red means "denied". No gradients, no glows: depth comes from flat fields of colour,
- * scale and motion.
+ * A sibling of Akkuea with its own identity: the same black ground, terminal vernacular
+ * (monospace for on-chain values, [01] markers, command prompts, a live status dot) and the rule
+ * that one signal colour never changes between themes. Halora's signal is the aurora: mint green
+ * with a turquoise second voice, over a night sky, because it lives on Stellar.
  *
- * Light ("Paper") is the base; dark ("Carbon") applies from the system preference unless the
- * owner picked a theme, which sets data-theme on <html>. The landing page does not follow the
- * theme: it is composed of fixed colour chapters (see .chapter-* below).
+ * Dark ("Night") is the default, as in Akkuea. Light ("Day") applies when the owner picks it
+ * (data-theme="light"). The landing page is always night.
  */
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
   /* Brand constants (never change with the theme) */
-  --carbon: #111214;
-  --carbon-2: #1b1c20;
-  --signal: #e1ac10;
-  --signal-deep: #5c4400;
-  --paper: #f0f0eb;
-  --paper-2: #e4e4dc;
-  --cobalt: #2f45d0;
-  --cobalt-hover: #2437b4;
-  --deny: #d23a26;
-  --allow: #1e7b4f;
+  --night: #000000;
+  --night-1: #0a0b0c;
+  --night-2: #121416;
+  --night-line: #1f2326;
+  --night-line-2: #343a3e;
+  --frost: #f2f5f4;
+  --mist: #9aa5a0;
+  --dim: #808b86;
+  --aurora: #2df5b4;
+  --aurora-hover: #6dfccb;
+  --aurora-teal: #19d3e0;
+  --aurora-deep: #0b7a58;
+  --aurora-ink: #00140d;
+  --held: #ffc24b;
+  --deny: #ff5a6a;
+  --allow: #2df5b4;
 
-  /* Surfaces */
-  --bg: #f0f0eb;
-  --bg-sunken: #e7e7e0;
-  --surface: #f8f8f4;
-  --surface-2: #e4e4dc;
-  --line: #d6d6cc;
-  --line-strong: #b9b9ad;
+  /* Semantic tokens: Night (default) */
+  --bg: #000000;
+  --bg-sunken: #050606;
+  --surface: #0a0b0c;
+  --surface-2: #121416;
+  --line: #1f2326;
+  --line-strong: #343a3e;
+  --fg: #f2f5f4;
+  --fg-muted: #a6b0ab;
+  --fg-subtle: #7b8681;
 
-  /* Text */
-  --fg: #111214;
-  --fg-muted: #3d3f45;
-  --fg-subtle: #585a61;
+  --halo-gold: #2df5b4;
+  --halo-amber: #19d3e0;
+  --halo-aurora: #19d3e0;
+  --halo-lilac: #19d3e0;
+  --halo-glow: rgb(45 245 180 / 0.35);
 
-  /* Halo (kept as names for the dashboard; values are the signal family) */
-  --halo-gold: #e1ac10;
-  --halo-amber: #b88a00;
-  --halo-aurora: #2f45d0;
-  --halo-lilac: #2f45d0;
-  --halo-glow: transparent;
+  --accent: #2df5b4;
+  --accent-strong: #6dfccb;
+  --primary-bg: #2df5b4;
+  --primary-bg-hover: #6dfccb;
+  --primary-fg: #00140d;
+  --focus: #2df5b4;
 
-  /* Interactive */
-  --accent: #2437b4;
-  --accent-strong: #1a2a8f;
-  --primary-bg: #2f45d0;
-  --primary-bg-hover: #2437b4;
-  --primary-fg: #ffffff;
-  --focus: #2f45d0;
+  --success: #2df5b4;
+  --success-soft: rgb(45 245 180 / 0.1);
+  --warning: #ffc24b;
+  --warning-soft: rgb(255 194 75 / 0.1);
+  --danger: #ff5a6a;
+  --danger-soft: rgb(255 90 106 / 0.1);
+  --info: #19d3e0;
+  --info-soft: rgb(25 211 224 / 0.1);
 
-  /* Status (text-safe on surface and on their own soft background) */
-  --success: #1a6b45;
-  --success-soft: #dcefe4;
-  --warning: #7a5900;
-  --warning-soft: #f6e7b8;
-  --danger: #b3301e;
-  --danger-soft: #f7dfda;
-  --info: #2437b4;
-  --info-soft: #e1e5fa;
-
-  /* Elevation: only for things that float (menus, dialogs, toasts) */
   --shadow-sm: none;
-  --shadow-md: 0 18px 48px -18px rgb(17 18 20 / 0.35);
-  --shadow-halo: none;
+  --shadow-md: 0 24px 60px -20px rgb(0 0 0 / 0.9);
+  --shadow-halo: 0 0 0 1px rgb(45 245 180 / 0.35), 0 0 40px -6px rgb(45 245 180 / 0.35);
 
-  /* Radius: near-square, decided once */
-  --radius-sm: 3px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
-  --radius-xl: 8px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
-  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
   --dur-fast: 140ms;
   --dur-base: 220ms;
   --dur-slow: 480ms;
@@ -91,78 +88,46 @@
   --t-ui: 240ms;
   --t-reveal: 800ms;
 
-  /* Type steps (five, shared by every page) */
+  /* Type steps */
   --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
-  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
-  --step-head: clamp(2.5rem, 1.4rem + 4.6vw, 6rem);
-  --step-display: clamp(3.4rem, 1rem + 10.2vw, 10.5rem);
+  --step-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-lead: clamp(1.125rem, 1.02rem + 0.5vw, 1.375rem);
+  --step-head: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
+  --step-display: clamp(3rem, 1rem + 8vw, 9rem);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    color-scheme: dark;
-    --bg: #111214;
-    --bg-sunken: #0b0c0d;
-    --surface: #18191d;
-    --surface-2: #212227;
-    --line: #2b2c32;
-    --line-strong: #3d3e45;
-    --fg: #f0f0eb;
-    --fg-muted: #c2c3c6;
-    --fg-subtle: #9a9ca2;
-    --halo-gold: #e1ac10;
-    --halo-amber: #f0c43a;
-    --halo-aurora: #7d8ff5;
-    --halo-lilac: #7d8ff5;
-    --accent: #9eabff;
-    --accent-strong: #c4ccff;
-    --primary-bg: #3a51e0;
-    --primary-bg-hover: #4f64ec;
-    --primary-fg: #ffffff;
-    --focus: #e1ac10;
-    --success: #5fd49d;
-    --success-soft: rgb(95 212 157 / 0.12);
-    --warning: #e1ac10;
-    --warning-soft: rgb(225 172 16 / 0.14);
-    --danger: #ff7c68;
-    --danger-soft: rgb(255 124 104 / 0.12);
-    --info: #9eabff;
-    --info-soft: rgb(158 171 255 / 0.12);
-    --shadow-md: 0 24px 60px -20px rgb(0 0 0 / 0.8);
-  }
-}
-
-:root[data-theme='dark'] {
-  color-scheme: dark;
-  --bg: #111214;
-  --bg-sunken: #0b0c0d;
-  --surface: #18191d;
-  --surface-2: #212227;
-  --line: #2b2c32;
-  --line-strong: #3d3e45;
-  --fg: #f0f0eb;
-  --fg-muted: #c2c3c6;
-  --fg-subtle: #9a9ca2;
-  --halo-gold: #e1ac10;
-  --halo-amber: #f0c43a;
-  --halo-aurora: #7d8ff5;
-  --halo-lilac: #7d8ff5;
-  --accent: #9eabff;
-  --accent-strong: #c4ccff;
-  --primary-bg: #3a51e0;
-  --primary-bg-hover: #4f64ec;
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #ffffff;
+  --bg-sunken: #f4f6f5;
+  --surface: #fafbfa;
+  --surface-2: #f0f3f2;
+  --line: #e3e8e6;
+  --line-strong: #cdd5d2;
+  --fg: #07110d;
+  --fg-muted: #45504b;
+  --fg-subtle: #5e6964;
+  --halo-gold: #0aa676;
+  --halo-amber: #0b8f9a;
+  --halo-aurora: #0b8f9a;
+  --halo-lilac: #0b8f9a;
+  --halo-glow: rgb(10 166 118 / 0.25);
+  --accent: #00744f;
+  --accent-strong: #005a3d;
+  --primary-bg: #07110d;
+  --primary-bg-hover: #1b2a24;
   --primary-fg: #ffffff;
-  --focus: #e1ac10;
-  --success: #5fd49d;
-  --success-soft: rgb(95 212 157 / 0.12);
-  --warning: #e1ac10;
-  --warning-soft: rgb(225 172 16 / 0.14);
-  --danger: #ff7c68;
-  --danger-soft: rgb(255 124 104 / 0.12);
-  --info: #9eabff;
-  --info-soft: rgb(158 171 255 / 0.12);
-  --shadow-md: 0 24px 60px -20px rgb(0 0 0 / 0.8);
+  --focus: #00744f;
+  --success: #00744f;
+  --success-soft: #e0f6ee;
+  --warning: #8a5a00;
+  --warning-soft: #fdf1d8;
+  --danger: #c22536;
+  --danger-soft: #fde6e9;
+  --info: #006c76;
+  --info-soft: #dff5f7;
+  --shadow-md: 0 18px 48px -18px rgb(7 17 13 / 0.3);
+  --shadow-halo: 0 0 0 1px rgb(0 116 79 / 0.35);
 }
 
 @theme inline {
@@ -193,14 +158,20 @@
   --color-info: var(--info);
   --color-info-soft: var(--info-soft);
 
-  --color-carbon: var(--carbon);
-  --color-carbon-2: var(--carbon-2);
-  --color-signal: var(--signal);
-  --color-signal-deep: var(--signal-deep);
-  --color-paper: var(--paper);
-  --color-paper-2: var(--paper-2);
-  --color-cobalt: var(--cobalt);
-  --color-cobalt-hover: var(--cobalt-hover);
+  --color-night: var(--night);
+  --color-night-1: var(--night-1);
+  --color-night-2: var(--night-2);
+  --color-night-line: var(--night-line);
+  --color-night-line-2: var(--night-line-2);
+  --color-frost: var(--frost);
+  --color-mist: var(--mist);
+  --color-dim: var(--dim);
+  --color-signal: var(--aurora);
+  --color-signal-hover: var(--aurora-hover);
+  --color-teal: var(--aurora-teal);
+  --color-signal-deep: var(--aurora-deep);
+  --color-signal-ink: var(--aurora-ink);
+  --color-held: var(--held);
   --color-deny: var(--deny);
   --color-allow: var(--allow);
 
@@ -231,6 +202,7 @@
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
   }
   body {
     background: var(--bg);
@@ -251,8 +223,8 @@
     text-wrap: pretty;
   }
   ::selection {
-    background: var(--signal);
-    color: var(--carbon);
+    background: var(--aurora);
+    color: var(--aurora-ink);
   }
   :focus-visible {
     outline: 2px solid var(--focus);
@@ -260,6 +232,12 @@
   }
   .tabular {
     font-variant-numeric: tabular-nums;
+  }
+  /* On-chain values: tabular figures and a slashed zero, as in Akkuea. */
+  .font-mono {
+    font-feature-settings:
+      'tnum' 1,
+      'zero' 1;
   }
   /* Tailwind 4 resets buttons to the default cursor; every clickable control shows a pointer. */
   button:not(:disabled),
@@ -269,9 +247,6 @@
   label[for] {
     cursor: pointer;
   }
-  html {
-    scroll-behavior: smooth;
-  }
   a,
   button,
   input,
@@ -280,58 +255,178 @@
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
   }
-  /* Anchored sections land below the fixed header. */
   section[id] {
-    scroll-margin-top: 4rem;
-  }
-  @media (min-width: 768px) {
-    section[id] {
-      scroll-margin-top: 5rem;
-    }
+    scroll-margin-top: 4.5rem;
   }
   select {
     background-color: var(--surface);
     color: var(--fg);
   }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--line-strong);
+  }
 }
 
-/* Halo signature: a solid ring in signal yellow, used in the logo, meters and the live slot. */
 @layer components {
+  .display {
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+  }
+
+  /* Terminal label: a short aurora rule and a monospace caption, the sibling of Akkuea's. */
+  .term-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mist);
+  }
+  .term-label::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--aurora);
+  }
+
+  /* Live status dot. */
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 9999px;
+    background: var(--aurora);
+    box-shadow: 0 0 10px var(--aurora);
+  }
+
+  /* Night sky: a fine grid fading out, and a sparse star field. */
+  .grid-night {
+    background-image:
+      linear-gradient(var(--night-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--night-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black, transparent 75%);
+  }
+  .stars {
+    background-image:
+      radial-gradient(1px 1px at 12% 18%, rgb(242 245 244 / 0.7), transparent),
+      radial-gradient(1px 1px at 28% 72%, rgb(242 245 244 / 0.45), transparent),
+      radial-gradient(1.5px 1.5px at 46% 12%, rgb(242 245 244 / 0.8), transparent),
+      radial-gradient(1px 1px at 63% 44%, rgb(242 245 244 / 0.4), transparent),
+      radial-gradient(1px 1px at 78% 22%, rgb(242 245 244 / 0.6), transparent),
+      radial-gradient(1.5px 1.5px at 88% 66%, rgb(242 245 244 / 0.5), transparent),
+      radial-gradient(1px 1px at 8% 58%, rgb(242 245 244 / 0.5), transparent),
+      radial-gradient(1px 1px at 52% 86%, rgb(242 245 244 / 0.35), transparent),
+      radial-gradient(1px 1px at 36% 38%, rgb(242 245 244 / 0.5), transparent),
+      radial-gradient(1px 1px at 94% 8%, rgb(242 245 244 / 0.6), transparent);
+  }
+
+  /* Aurora text: the one gradient type treatment, reserved for a single phrase per page. */
+  .aurora-text {
+    background: linear-gradient(100deg, var(--aurora) 10%, var(--aurora-teal) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Old names kept for components that still use them. */
   .halo-ring {
     background: var(--halo-gold);
   }
   .halo-text {
     color: var(--fg);
   }
-  .halo-hairline {
-    background: var(--line);
-  }
   .surface-grain {
     background: transparent;
   }
+}
 
-  /* Landing chapters: each section is one flat field. The fixed header reads data-ink. */
-  .chapter-paper {
-    background: var(--paper);
-    color: var(--carbon);
+/* The aurora: three soft curtains of light drifting slowly. Transform and opacity only. */
+.aurora {
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 90%;
+  pointer-events: none;
+  filter: blur(64px) saturate(130%);
+  opacity: 0.55;
+}
+.aurora > span {
+  position: absolute;
+  border-radius: 9999px;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+.aurora > span:nth-child(1) {
+  left: 8%;
+  top: 10%;
+  width: 46%;
+  height: 38%;
+  background: radial-gradient(closest-side, var(--aurora), transparent);
+  animation: aurora-a 18s var(--ease-in-out) infinite alternate;
+}
+.aurora > span:nth-child(2) {
+  left: 38%;
+  top: 0%;
+  width: 52%;
+  height: 34%;
+  background: radial-gradient(closest-side, var(--aurora-teal), transparent);
+  animation: aurora-b 22s var(--ease-in-out) infinite alternate;
+}
+.aurora > span:nth-child(3) {
+  left: 22%;
+  top: 30%;
+  width: 40%;
+  height: 26%;
+  background: radial-gradient(closest-side, var(--aurora-deep), transparent);
+  animation: aurora-c 26s var(--ease-in-out) infinite alternate;
+}
+@keyframes aurora-a {
+  to {
+    transform: translate3d(14%, 8%, 0) rotate(8deg) scaleX(1.25);
   }
-  .chapter-signal {
-    background: var(--signal);
-    color: var(--carbon);
+}
+@keyframes aurora-b {
+  to {
+    transform: translate3d(-18%, 10%, 0) rotate(-10deg) scaleX(1.15);
   }
-  .chapter-carbon {
-    background: var(--carbon);
-    color: var(--paper);
+}
+@keyframes aurora-c {
+  to {
+    transform: translate3d(10%, -12%, 0) scale(1.3);
   }
-  .chapter-cobalt {
-    background: var(--cobalt);
-    color: #ffffff;
-  }
+}
 
-  .display {
-    font-weight: 600;
-    letter-spacing: -0.045em;
-    line-height: 0.92;
+/* Marquee: the live payment ticker. */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  min-width: 100%;
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
   }
 }
 
@@ -357,20 +452,21 @@
 }
 @keyframes caret-blink {
   0%,
-  45% {
+  50% {
     opacity: 1;
   }
-  55%,
+  51%,
   100% {
     opacity: 0;
   }
 }
-@keyframes scan {
-  from {
-    transform: translateY(-100%);
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    opacity: 1;
   }
-  to {
-    transform: translateY(100%);
+  50% {
+    opacity: 0.45;
   }
 }
 
@@ -380,6 +476,12 @@
 .animate-rise {
   animation: rise-in var(--dur-slow) var(--ease-out) both;
 }
+.animate-blink {
+  animation: caret-blink 1s step-end infinite;
+}
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
 
 /*
  * Entrances. Content stays visible without JavaScript: the hidden state only applies under
@@ -388,11 +490,11 @@
 @media (prefers-reduced-motion: no-preference) {
   .js [data-reveal] {
     opacity: 0;
-    transform: translateY(var(--rise, 24px));
+    transform: translateY(var(--rise, 20px));
     transition:
       opacity 700ms var(--ease-out),
       transform 900ms var(--ease-out);
-    transition-delay: calc(var(--i, 0) * 80ms);
+    transition-delay: calc(var(--i, 0) * 70ms);
   }
   .js .is-in [data-reveal],
   .js [data-reveal].is-in {
@@ -406,50 +508,13 @@
     animation: line-up 1000ms var(--ease-out) forwards;
     animation-delay: calc(var(--i, 0) * 120ms + 120ms);
   }
-
-  /* A cover in the ground colour slides off a coloured field, so the field appears to grow. */
-  .js [data-cover] {
-    display: block;
-    transform-origin: right center;
-    transition: transform 1100ms var(--ease-in-out);
-    transition-delay: calc(var(--i, 0) * 140ms + 200ms);
-  }
-  .js .is-in [data-cover] {
-    transform: scaleX(0);
-  }
-  @media (max-width: 767px) {
-    .js [data-cover] {
-      transform-origin: center bottom;
-    }
-    .js .is-in [data-cover] {
-      transform: scaleY(0);
-    }
-  }
-}
-
-/* Hero seam: the part of a line below the seam is redrawn in deep signal ink. */
-.seam-ink {
-  position: relative;
-  display: block;
-}
-.seam-ink::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  color: var(--signal-deep);
-  clip-path: inset(var(--cut, 0.55em) 0 0 0);
-  pointer-events: none;
-}
-
-[data-cover] {
-  display: none;
 }
 
 .line-mask {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.1em;
-  margin-bottom: -0.1em;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
 }
 
 /* Page-to-page and in-page view transitions (React <ViewTransition>). */
