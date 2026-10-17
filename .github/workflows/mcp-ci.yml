@@ -1,0 +1,54 @@
+name: mcp-ci
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/mcp/**'
+      - 'apps/sdk/**'
+      - 'apps/shared/**'
+      - 'bun.lock'
+      - 'package.json'
+      - 'tsconfig.base.json'
+      - '.github/workflows/mcp-ci.yml'
+  pull_request:
+    paths:
+      - 'apps/mcp/**'
+      - 'apps/sdk/**'
+      - 'apps/shared/**'
+      - 'bun.lock'
+      - 'package.json'
+      - 'tsconfig.base.json'
+      - '.github/workflows/mcp-ci.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mcp-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: apps/mcp
+
+jobs:
+  check:
+    name: typecheck, lint, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3'
+      - name: Install
+        working-directory: .
+        run: bun install --frozen-lockfile
+      - name: Typecheck
+        run: bun run typecheck
+      - name: Lint
+        run: bun run lint
+      - name: Test
+        run: bun test
+      - name: Build
+        run: bun run build
