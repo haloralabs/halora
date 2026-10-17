@@ -14,3 +14,6 @@ apps/contracts/target/
 apps/contracts/**/test_snapshots/
 *.wasm
 .stellar/
+
+# Design tooling output
+.taste-skill/

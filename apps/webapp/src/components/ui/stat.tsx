@@ -16,14 +16,14 @@ export function Stat({
 }) {
   return (
     <div className={cn('flex flex-col gap-1', className)}>
-      <dt className="text-xs font-medium tracking-wide text-subtle uppercase">{label}</dt>
+      <dt className="text-sm text-subtle">{label}</dt>
       <dd className="flex items-baseline gap-1.5">
-        <span className="tabular font-display text-[1.75rem] leading-none tracking-tight text-fg">
+        <span className="tabular text-[2.25rem] leading-none font-semibold tracking-[-0.035em] text-fg">
           {value}
         </span>
-        {unit && <span className="text-xs font-medium text-subtle">{unit}</span>}
+        {unit && <span className="text-sm font-medium text-subtle">{unit}</span>}
       </dd>
-      {hint && <dd className="text-xs text-muted">{hint}</dd>}
+      {hint && <dd className="text-sm text-muted">{hint}</dd>}
     </div>
   );
 }

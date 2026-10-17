@@ -44,7 +44,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         }
       }}
       className={cn(
-        'inline-flex size-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface-2 hover:text-fg',
+        'inline-flex size-11 items-center justify-center rounded-[var(--radius-md)] text-muted transition-[background-color,color,transform] duration-[var(--t-hover)] hover:bg-surface-2 hover:text-fg active:scale-95 sm:size-10',
         className,
       )}
       aria-label={`Theme: ${theme}. Switch to ${next}.`}

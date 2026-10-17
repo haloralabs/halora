@@ -2,8 +2,15 @@
 
 /*
  * Halora design tokens. Documented in docs/design-system/foundations.md.
- * Light ("Dawn") is the base; dark ("Night") applies from the system preference unless the
- * owner picked a theme, which sets data-theme on <html>.
+ *
+ * The identity is a safety signal: carbon and signal yellow are the vernacular of things that
+ * protect you (hazard marking, instrument panels), cobalt is the one colour that means "act",
+ * and a hard red means "denied". No gradients, no glows: depth comes from flat fields of colour,
+ * scale and motion.
+ *
+ * Light ("Paper") is the base; dark ("Carbon") applies from the system preference unless the
+ * owner picked a theme, which sets data-theme on <html>. The landing page does not follow the
+ * theme: it is composed of fixed colour chapters (see .chapter-* below).
  */
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
@@ -11,132 +18,151 @@
 :root {
   color-scheme: light;
 
+  /* Brand constants (never change with the theme) */
+  --carbon: #111214;
+  --carbon-2: #1b1c20;
+  --signal: #e1ac10;
+  --signal-deep: #5c4400;
+  --paper: #f0f0eb;
+  --paper-2: #e4e4dc;
+  --cobalt: #2f45d0;
+  --cobalt-hover: #2437b4;
+  --deny: #d23a26;
+  --allow: #1e7b4f;
+
   /* Surfaces */
-  --bg: #f8f6f1;
-  --bg-sunken: #f1eee6;
-  --surface: #ffffff;
-  --surface-2: #f4f1ea;
-  --line: #e5e0d4;
-  --line-strong: #cfc7b6;
+  --bg: #f0f0eb;
+  --bg-sunken: #e7e7e0;
+  --surface: #f8f8f4;
+  --surface-2: #e4e4dc;
+  --line: #d6d6cc;
+  --line-strong: #b9b9ad;
 
   /* Text */
-  --fg: #12131c;
-  --fg-muted: #4f5264;
-  --fg-subtle: #676a7d;
+  --fg: #111214;
+  --fg-muted: #3d3f45;
+  --fg-subtle: #585a61;
 
-  /* Halo */
-  --halo-gold: #d49a2f;
-  --halo-amber: #b9771b;
-  --halo-aurora: #4fae95;
-  --halo-lilac: #8a7be0;
-  --halo-glow: rgb(212 154 47 / 0.22);
+  /* Halo (kept as names for the dashboard; values are the signal family) */
+  --halo-gold: #e1ac10;
+  --halo-amber: #b88a00;
+  --halo-aurora: #2f45d0;
+  --halo-lilac: #2f45d0;
+  --halo-glow: transparent;
 
   /* Interactive */
-  --accent: #8a5800;
-  --accent-strong: #6e4500;
-  --primary-bg: #12131c;
-  --primary-bg-hover: #262838;
-  --primary-fg: #fbf8f1;
-  --focus: #8a5800;
+  --accent: #2437b4;
+  --accent-strong: #1a2a8f;
+  --primary-bg: #2f45d0;
+  --primary-bg-hover: #2437b4;
+  --primary-fg: #ffffff;
+  --focus: #2f45d0;
 
   /* Status (text-safe on surface and on their own soft background) */
-  --success: #1c7550;
-  --success-soft: #e3f3eb;
-  --warning: #8a5800;
-  --warning-soft: #fbf0d9;
-  --danger: #b42318;
-  --danger-soft: #fde8e6;
-  --info: #3346b8;
-  --info-soft: #e8ebfb;
+  --success: #1a6b45;
+  --success-soft: #dcefe4;
+  --warning: #7a5900;
+  --warning-soft: #f6e7b8;
+  --danger: #b3301e;
+  --danger-soft: #f7dfda;
+  --info: #2437b4;
+  --info-soft: #e1e5fa;
 
-  /* Elevation */
-  --shadow-sm: 0 1px 2px rgb(18 19 28 / 0.06);
-  --shadow-md: 0 1px 2px rgb(18 19 28 / 0.04), 0 8px 24px -8px rgb(18 19 28 / 0.12);
-  --shadow-halo: 0 0 0 1px rgb(212 154 47 / 0.25), 0 12px 40px -12px rgb(212 154 47 / 0.35);
+  /* Elevation: only for things that float (menus, dialogs, toasts) */
+  --shadow-sm: none;
+  --shadow-md: 0 18px 48px -18px rgb(17 18 20 / 0.35);
+  --shadow-halo: none;
 
-  /* Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 28px;
+  /* Radius: near-square, decided once */
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
   --dur-fast: 140ms;
   --dur-base: 220ms;
   --dur-slow: 480ms;
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+  --t-reveal: 800ms;
+
+  /* Type steps (five, shared by every page) */
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2.5rem, 1.4rem + 4.6vw, 6rem);
+  --step-display: clamp(3.4rem, 1rem + 10.2vw, 10.5rem);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --bg: #070811;
-    --bg-sunken: #05060c;
-    --surface: #0d0f1c;
-    --surface-2: #141729;
-    --line: #1e2236;
-    --line-strong: #2d3350;
-    --fg: #eeeaf6;
-    --fg-muted: #a6a9c2;
-    --fg-subtle: #8a8ea9;
-    --halo-gold: #f3c97a;
-    --halo-amber: #e5a54b;
-    --halo-aurora: #bdebdc;
-    --halo-lilac: #c6b8ff;
-    --halo-glow: rgb(243 201 122 / 0.2);
-    --accent: #f3c97a;
-    --accent-strong: #ffdca0;
-    --primary-bg: #f3c97a;
-    --primary-bg-hover: #ffd894;
-    --primary-fg: #1a1305;
-    --focus: #f3c97a;
-    --success: #86dcb5;
-    --success-soft: rgb(134 220 181 / 0.1);
-    --warning: #f3c97a;
-    --warning-soft: rgb(243 201 122 / 0.1);
-    --danger: #ff9b92;
-    --danger-soft: rgb(255 155 146 / 0.1);
-    --info: #aebcff;
-    --info-soft: rgb(174 188 255 / 0.1);
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-    --shadow-md: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 16px 40px -16px rgb(0 0 0 / 0.7);
-    --shadow-halo: 0 0 0 1px rgb(243 201 122 / 0.3), 0 0 48px -8px rgb(243 201 122 / 0.35);
+    --bg: #111214;
+    --bg-sunken: #0b0c0d;
+    --surface: #18191d;
+    --surface-2: #212227;
+    --line: #2b2c32;
+    --line-strong: #3d3e45;
+    --fg: #f0f0eb;
+    --fg-muted: #c2c3c6;
+    --fg-subtle: #9a9ca2;
+    --halo-gold: #e1ac10;
+    --halo-amber: #f0c43a;
+    --halo-aurora: #7d8ff5;
+    --halo-lilac: #7d8ff5;
+    --accent: #9eabff;
+    --accent-strong: #c4ccff;
+    --primary-bg: #3a51e0;
+    --primary-bg-hover: #4f64ec;
+    --primary-fg: #ffffff;
+    --focus: #e1ac10;
+    --success: #5fd49d;
+    --success-soft: rgb(95 212 157 / 0.12);
+    --warning: #e1ac10;
+    --warning-soft: rgb(225 172 16 / 0.14);
+    --danger: #ff7c68;
+    --danger-soft: rgb(255 124 104 / 0.12);
+    --info: #9eabff;
+    --info-soft: rgb(158 171 255 / 0.12);
+    --shadow-md: 0 24px 60px -20px rgb(0 0 0 / 0.8);
   }
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: #070811;
-  --bg-sunken: #05060c;
-  --surface: #0d0f1c;
-  --surface-2: #141729;
-  --line: #1e2236;
-  --line-strong: #2d3350;
-  --fg: #eeeaf6;
-  --fg-muted: #a6a9c2;
-  --fg-subtle: #8a8ea9;
-  --halo-gold: #f3c97a;
-  --halo-amber: #e5a54b;
-  --halo-aurora: #bdebdc;
-  --halo-lilac: #c6b8ff;
-  --halo-glow: rgb(243 201 122 / 0.2);
-  --accent: #f3c97a;
-  --accent-strong: #ffdca0;
-  --primary-bg: #f3c97a;
-  --primary-bg-hover: #ffd894;
-  --primary-fg: #1a1305;
-  --focus: #f3c97a;
-  --success: #86dcb5;
-  --success-soft: rgb(134 220 181 / 0.1);
-  --warning: #f3c97a;
-  --warning-soft: rgb(243 201 122 / 0.1);
-  --danger: #ff9b92;
-  --danger-soft: rgb(255 155 146 / 0.1);
-  --info: #aebcff;
-  --info-soft: rgb(174 188 255 / 0.1);
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-md: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 16px 40px -16px rgb(0 0 0 / 0.7);
-  --shadow-halo: 0 0 0 1px rgb(243 201 122 / 0.3), 0 0 48px -8px rgb(243 201 122 / 0.35);
+  --bg: #111214;
+  --bg-sunken: #0b0c0d;
+  --surface: #18191d;
+  --surface-2: #212227;
+  --line: #2b2c32;
+  --line-strong: #3d3e45;
+  --fg: #f0f0eb;
+  --fg-muted: #c2c3c6;
+  --fg-subtle: #9a9ca2;
+  --halo-gold: #e1ac10;
+  --halo-amber: #f0c43a;
+  --halo-aurora: #7d8ff5;
+  --halo-lilac: #7d8ff5;
+  --accent: #9eabff;
+  --accent-strong: #c4ccff;
+  --primary-bg: #3a51e0;
+  --primary-bg-hover: #4f64ec;
+  --primary-fg: #ffffff;
+  --focus: #e1ac10;
+  --success: #5fd49d;
+  --success-soft: rgb(95 212 157 / 0.12);
+  --warning: #e1ac10;
+  --warning-soft: rgb(225 172 16 / 0.14);
+  --danger: #ff7c68;
+  --danger-soft: rgb(255 124 104 / 0.12);
+  --info: #9eabff;
+  --info-soft: rgb(158 171 255 / 0.12);
+  --shadow-md: 0 24px 60px -20px rgb(0 0 0 / 0.8);
 }
 
 @theme inline {
@@ -167,8 +193,19 @@
   --color-info: var(--info);
   --color-info-soft: var(--info-soft);
 
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-display-serif), ui-serif, Georgia, serif;
+  --color-carbon: var(--carbon);
+  --color-carbon-2: var(--carbon-2);
+  --color-signal: var(--signal);
+  --color-signal-deep: var(--signal-deep);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-cobalt: var(--cobalt);
+  --color-cobalt-hover: var(--cobalt-hover);
+  --color-deny: var(--deny);
+  --color-allow: var(--allow);
+
+  --font-sans: var(--font-switzer), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-switzer), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-code), ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   --radius-sm: var(--radius-sm);
@@ -181,6 +218,13 @@
   --shadow-halo: var(--shadow-halo);
 
   --ease-out: var(--ease-out);
+  --ease-in-out: var(--ease-in-out);
+
+  --text-small: var(--step-small);
+  --text-body: var(--step-body);
+  --text-lead: var(--step-lead);
+  --text-head: var(--step-head);
+  --text-display: var(--step-display);
 }
 
 @layer base {
@@ -192,61 +236,102 @@
     background: var(--bg);
     color: var(--fg);
     font-family: var(--font-sans);
-    font-feature-settings: 'ss01', 'cv11';
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
   ::selection {
-    background: color-mix(in oklab, var(--halo-gold) 35%, transparent);
+    background: var(--signal);
+    color: var(--carbon);
   }
   :focus-visible {
     outline: 2px solid var(--focus);
-    outline-offset: 2px;
-    border-radius: 6px;
+    outline-offset: 3px;
   }
   .tabular {
     font-variant-numeric: tabular-nums;
   }
+  /* Tailwind 4 resets buttons to the default cursor; every clickable control shows a pointer. */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  [role='tab'],
+  select,
+  label[for] {
+    cursor: pointer;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  a,
+  button,
+  input,
+  select,
+  [role='tab'] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Anchored sections land below the fixed header. */
+  section[id] {
+    scroll-margin-top: 4rem;
+  }
+  @media (min-width: 768px) {
+    section[id] {
+      scroll-margin-top: 5rem;
+    }
+  }
+  select {
+    background-color: var(--surface);
+    color: var(--fg);
+  }
 }
 
-/* Halo signature: a conic ring of light, used sparingly (logo, hero, primary meters). */
+/* Halo signature: a solid ring in signal yellow, used in the logo, meters and the live slot. */
 @layer components {
   .halo-ring {
-    background: conic-gradient(
-      from 200deg,
-      var(--halo-gold),
-      var(--halo-aurora) 30%,
-      var(--halo-lilac) 55%,
-      var(--halo-amber) 80%,
-      var(--halo-gold)
-    );
+    background: var(--halo-gold);
   }
   .halo-text {
-    background: linear-gradient(
-      100deg,
-      var(--halo-amber),
-      var(--halo-gold) 35%,
-      var(--halo-aurora) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--fg);
   }
   .halo-hairline {
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--halo-gold),
-      var(--halo-aurora),
-      transparent
-    );
+    background: var(--line);
   }
   .surface-grain {
-    background-image: radial-gradient(
-      color-mix(in oklab, var(--fg) 6%, transparent) 1px,
-      transparent 1px
-    );
-    background-size: 22px 22px;
+    background: transparent;
+  }
+
+  /* Landing chapters: each section is one flat field. The fixed header reads data-ink. */
+  .chapter-paper {
+    background: var(--paper);
+    color: var(--carbon);
+  }
+  .chapter-signal {
+    background: var(--signal);
+    color: var(--carbon);
+  }
+  .chapter-carbon {
+    background: var(--carbon);
+    color: var(--paper);
+  }
+  .chapter-cobalt {
+    background: var(--cobalt);
+    color: #ffffff;
+  }
+
+  .display {
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
   }
 }
 
@@ -255,36 +340,128 @@
     transform: rotate(360deg);
   }
 }
-@keyframes halo-breathe {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.04);
-  }
-}
 @keyframes rise-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
     transform: none;
   }
 }
+@keyframes line-up {
+  to {
+    transform: none;
+  }
+}
+@keyframes caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes scan {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
 
 .animate-halo-spin {
-  animation: halo-spin 28s linear infinite;
-}
-.animate-halo-breathe {
-  animation: halo-breathe 6s var(--ease-out) infinite;
+  animation: halo-spin 14s linear infinite;
 }
 .animate-rise {
   animation: rise-in var(--dur-slow) var(--ease-out) both;
+}
+
+/*
+ * Entrances. Content stays visible without JavaScript: the hidden state only applies under
+ * html.js (set by an inline script) and is removed by the reveal observer (.is-in).
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(var(--rise, 24px));
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 900ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+  .js .is-in [data-reveal],
+  .js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .js [data-line] {
+    display: block;
+    transform: translateY(108%);
+    animation: line-up 1000ms var(--ease-out) forwards;
+    animation-delay: calc(var(--i, 0) * 120ms + 120ms);
+  }
+
+  /* A cover in the ground colour slides off a coloured field, so the field appears to grow. */
+  .js [data-cover] {
+    display: block;
+    transform-origin: right center;
+    transition: transform 1100ms var(--ease-in-out);
+    transition-delay: calc(var(--i, 0) * 140ms + 200ms);
+  }
+  .js .is-in [data-cover] {
+    transform: scaleX(0);
+  }
+  @media (max-width: 767px) {
+    .js [data-cover] {
+      transform-origin: center bottom;
+    }
+    .js .is-in [data-cover] {
+      transform: scaleY(0);
+    }
+  }
+}
+
+/* Hero seam: the part of a line below the seam is redrawn in deep signal ink. */
+.seam-ink {
+  position: relative;
+  display: block;
+}
+.seam-ink::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: var(--signal-deep);
+  clip-path: inset(var(--cut, 0.55em) 0 0 0);
+  pointer-events: none;
+}
+
+[data-cover] {
+  display: none;
+}
+
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+/* Page-to-page and in-page view transitions (React <ViewTransition>). */
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-timing-function: var(--ease-out);
+}
+::view-transition-new(.page-enter) {
+  animation: rise-in 420ms var(--ease-out) both;
+}
+::view-transition-old(.page-exit) {
+  animation: rise-in 200ms var(--ease-out) reverse both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -295,5 +472,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

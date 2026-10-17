@@ -53,7 +53,7 @@ export function Switch({
         <span
           aria-hidden
           className={cn(
-            'inline-block size-4.5 rounded-full bg-surface shadow-sm transition-transform duration-200 ease-out',
+            'inline-block size-4.5 rounded-full bg-white transition-transform duration-200 ease-[var(--ease-out)]',
             checked ? 'translate-x-[1.375rem]' : 'translate-x-[0.1875rem]',
           )}
         />

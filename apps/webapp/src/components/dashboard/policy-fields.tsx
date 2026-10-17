@@ -46,9 +46,7 @@ export function PolicyFields({
   return (
     <div className="space-y-8">
       <fieldset className="space-y-5">
-        <legend className="mb-4 text-xs font-semibold tracking-wide text-subtle uppercase">
-          Spending limits
-        </legend>
+        <legend className="mb-4 text-base font-semibold text-fg">Spending limits</legend>
         <div className="grid gap-5 sm:grid-cols-2">
           <Field
             label="Per payment limit"
@@ -146,7 +144,7 @@ export function PolicyFields({
                           values.allowlist.filter((x) => x !== a),
                         )
                       }
-                      className="grid size-8 shrink-0 place-items-center rounded-full text-subtle hover:bg-danger-soft hover:text-danger"
+                      className="grid size-11 shrink-0 place-items-center rounded-[var(--radius-md)] text-subtle hover:bg-danger-soft hover:text-danger sm:size-9"
                       aria-label={`Remove ${truncateMiddle(a)}`}
                     >
                       <Trash2 className="size-3.5" aria-hidden />

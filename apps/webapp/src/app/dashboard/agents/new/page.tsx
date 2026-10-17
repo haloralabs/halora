@@ -93,10 +93,12 @@ export default function NewAgentPage() {
     return (
       <div className="mx-auto max-w-2xl space-y-8">
         <div className="text-center">
-          <span className="mx-auto grid size-14 place-items-center rounded-full border border-success/30 bg-success-soft text-success">
+          <span className="mx-auto grid size-14 place-items-center rounded-[var(--radius-lg)] bg-signal text-carbon">
             <CheckCircle2 className="size-6" aria-hidden />
           </span>
-          <h1 className="mt-5 font-display text-4xl text-fg">{account.label} has its halo</h1>
+          <h1 className="mt-6 text-[2.5rem] leading-[1] font-semibold tracking-[-0.045em] text-fg sm:text-5xl">
+            {account.label} has its halo
+          </h1>
           <p className="mt-2 text-muted">
             The account contract is deployed with your policy. You are its owner.
           </p>
@@ -109,7 +111,7 @@ export default function NewAgentPage() {
             </div>
             <div>
               <p className="mb-1.5 text-xs text-subtle">API key (shown once)</p>
-              <div className="flex items-center gap-2 rounded-[var(--radius-md)] border border-line bg-surface-2 px-4 py-2.5">
+              <div className="flex items-center gap-2 rounded-[var(--radius-md)] bg-surface-2 px-4 py-2.5">
                 <code className="min-w-0 flex-1 truncate font-mono text-sm text-fg">{apiKey}</code>
                 <CopyButton value={apiKey} label="Copy API key" />
               </div>
@@ -211,7 +213,7 @@ export default function NewAgentPage() {
                   content: (
                     <div className="space-y-3">
                       {generated ? (
-                        <div className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-md)] border border-line bg-surface-2 px-4 py-3">
+                        <div className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-md)] bg-surface-2 px-4 py-3">
                           <span className="text-sm text-muted">
                             Agent public key{' '}
                             <Address value={generated.publicKey} head={6} tail={6} />

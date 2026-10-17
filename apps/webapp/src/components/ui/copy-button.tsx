@@ -31,16 +31,16 @@ export function CopyButton({
         }
       }}
       className={cn(
-        'inline-flex size-7 shrink-0 items-center justify-center rounded-md text-subtle transition-colors hover:bg-surface-2 hover:text-fg',
+        'inline-flex size-11 shrink-0 items-center justify-center rounded-[var(--radius-md)] text-subtle transition-[background-color,color,transform] duration-[var(--t-hover)] hover:bg-surface-2 hover:text-fg active:scale-95 sm:size-9',
         className,
       )}
       aria-label={copied ? 'Copied' : label}
       title={copied ? 'Copied' : label}
     >
       {copied ? (
-        <Check className="size-3.5 text-success" aria-hidden />
+        <Check className="size-4 text-success" aria-hidden />
       ) : (
-        <Copy className="size-3.5" aria-hidden />
+        <Copy className="size-4" aria-hidden />
       )}
       <span className="sr-only" aria-live="polite">
         {copied ? 'Copied to clipboard' : ''}

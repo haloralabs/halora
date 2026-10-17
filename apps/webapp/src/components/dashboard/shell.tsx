@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Bell, LayoutGrid, LogOut, Plus, ReceiptText } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { ViewTransition, type ReactNode } from 'react';
 import { Logo } from '@/components/brand/logo';
 import { ThemeToggle } from '@/components/layout/theme-toggle';
 import { Address, ButtonLink } from '@/components/ui';
@@ -28,45 +28,112 @@ function usePendingCount(): number {
   return data?.length ?? 0;
 }
 
-function NavLinks({
-  pending,
-  orientation,
-}: {
-  pending: number;
-  orientation: 'vertical' | 'horizontal';
-}) {
+function isActive(pathname: string, href: string, exact?: boolean) {
+  return exact
+    ? pathname === href || pathname.startsWith('/dashboard/agents')
+    : pathname.startsWith(href);
+}
+
+function PendingCount({ pending }: { pending: number }) {
+  if (pending <= 0) return null;
+  return (
+    <span className="tabular grid h-5 min-w-5 place-items-center rounded-[var(--radius-sm)] bg-signal px-1 text-[0.75rem] font-semibold text-carbon">
+      {pending}
+      <span className="sr-only"> pending</span>
+    </span>
+  );
+}
+
+/**
+ * Desktop tabs. The signal bar under the active tab is one shared element: on navigation it
+ * travels to the new tab instead of blinking.
+ */
+function DesktopNav({ pending }: { pending: number }) {
   const pathname = usePathname();
   return (
-    <ul className={cn('flex gap-1', orientation === 'vertical' ? 'flex-col' : 'flex-row')}>
-      {NAV.map(({ href, label, icon: Icon, exact }) => {
-        const active = exact
-          ? pathname === href || pathname.startsWith('/dashboard/agents')
-          : pathname.startsWith(href);
-        return (
-          <li key={href}>
-            <Link
-              href={href}
-              aria-current={active ? 'page' : undefined}
-              className={cn(
-                'flex items-center gap-2.5 rounded-full px-3.5 py-2 text-sm font-medium transition-colors',
-                active
-                  ? 'bg-surface text-fg shadow-sm ring-1 ring-line'
-                  : 'text-muted hover:text-fg',
+    <nav aria-label="Dashboard" className="hidden md:block">
+      <ul className="flex h-16 items-stretch gap-1">
+        {NAV.map(({ href, label, exact }) => {
+          const active = isActive(pathname, href, exact);
+          return (
+            <li key={href} className="relative flex">
+              <Link
+                href={href}
+                aria-current={active ? 'page' : undefined}
+                className={cn(
+                  'flex items-center gap-2 px-3 text-[0.9375rem] font-medium transition-colors duration-[var(--t-hover)]',
+                  active ? 'text-fg' : 'text-muted hover:text-fg',
+                )}
+              >
+                {label}
+                {label === 'Approvals' && <PendingCount pending={pending} />}
+              </Link>
+              {active && (
+                <ViewTransition name="nav-indicator" share="auto" default="none">
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-3 bottom-0 h-[3px] rounded-t-[2px] bg-signal"
+                  />
+                </ViewTransition>
               )}
-            >
-              <Icon className={cn('size-4', active && 'text-accent')} aria-hidden />
-              {label}
-              {label === 'Approvals' && pending > 0 && (
-                <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-gold px-1.5 text-[0.6875rem] font-semibold text-[#1a1305]">
-                  {pending}
-                  <span className="sr-only"> pending</span>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+}
+
+/** Phone: a bottom tab bar within thumb reach, clear of the home indicator. */
+function MobileTabBar({ pending }: { pending: number }) {
+  const pathname = usePathname();
+  return (
+    <nav
+      aria-label="Dashboard"
+      className="fixed inset-x-0 bottom-0 z-30 bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
+    >
+      <ul className="grid grid-cols-4">
+        {NAV.map(({ href, label, icon: Icon, exact }) => {
+          const active = isActive(pathname, href, exact);
+          return (
+            <li key={href}>
+              <Link
+                href={href}
+                aria-current={active ? 'page' : undefined}
+                className={cn(
+                  'relative flex min-h-16 flex-col items-center justify-center gap-1 text-[0.75rem] font-medium transition-colors duration-[var(--t-hover)] active:scale-95',
+                  active ? 'text-fg' : 'text-subtle',
+                )}
+              >
+                {active && (
+                  <span aria-hidden className="absolute inset-x-6 top-0 h-[3px] bg-signal" />
+                )}
+                <span className="relative">
+                  <Icon className="size-5" aria-hidden />
+                  {label === 'Approvals' && pending > 0 && (
+                    <span className="absolute -top-1.5 -right-3">
+                      <PendingCount pending={pending} />
+                    </span>
+                  )}
                 </span>
-              )}
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+                {label}
+              </Link>
+            </li>
+          );
+        })}
+        <li>
+          <Link
+            href="/dashboard/agents/new"
+            className="flex min-h-16 flex-col items-center justify-center gap-1 text-[0.75rem] font-medium text-subtle active:scale-95"
+          >
+            <span className="grid size-6 place-items-center rounded-[var(--radius-sm)] bg-cobalt text-white">
+              <Plus className="size-4" aria-hidden />
+            </span>
+            New agent
+          </Link>
+        </li>
+      </ul>
+    </nav>
   );
 }
 
@@ -74,89 +141,90 @@ function OwnerChip() {
   const { publicKey, disconnect } = useSession();
   if (!publicKey) return null;
   return (
-    <div className="flex items-center gap-2 rounded-full border border-line bg-surface py-1 pr-1 pl-3">
-      <span className="size-2 rounded-full bg-success" aria-hidden />
+    <div className="flex items-center gap-1 rounded-[var(--radius-md)] bg-surface py-1 pr-1 pl-3">
+      <span className="relative mr-1 flex size-2" aria-hidden>
+        <span className="absolute inset-0 animate-ping rounded-full bg-success opacity-60 motion-reduce:hidden" />
+        <span className="relative size-2 rounded-full bg-success" />
+      </span>
       <span className="sr-only">Connected owner</span>
       <Address value={publicKey} copy={false} />
       <button
         type="button"
         onClick={disconnect}
-        className="grid size-7 place-items-center rounded-full text-subtle hover:bg-surface-2 hover:text-fg"
+        className="grid size-9 place-items-center rounded-[var(--radius-sm)] text-subtle transition-colors hover:bg-surface-2 hover:text-fg"
         aria-label="Disconnect wallet"
         title="Disconnect"
       >
-        <LogOut className="size-3.5" aria-hidden />
+        <LogOut className="size-4" aria-hidden />
       </button>
     </div>
   );
 }
 
-function MobileDisconnect() {
-  const disconnect = useSession((s) => s.disconnect);
-  return (
-    <button
-      type="button"
-      onClick={disconnect}
-      className="grid size-9 place-items-center rounded-full text-muted hover:bg-surface-2 hover:text-fg sm:hidden"
-      aria-label="Disconnect wallet"
-    >
-      <LogOut className="size-4" aria-hidden />
-    </button>
-  );
-}
-
 export function DashboardShell({ children }: { children: ReactNode }) {
   const connected = useSession((s) => s.status === 'connected');
+  const disconnect = useSession((s) => s.disconnect);
   const pending = usePendingCount();
+  const pathname = usePathname();
+
   return (
     <div className="min-h-dvh bg-bg">
       {config.dataMode === 'mock' && (
-        <div className="border-b border-line bg-warning-soft px-4 py-2 text-center text-xs font-medium text-warning">
+        <p className="bg-signal px-4 py-2 text-center text-[0.8125rem] font-medium text-carbon">
           Demo mode: seeded data in your browser. No network, no real funds.
-        </div>
+        </p>
       )}
-      <header className="sticky top-0 z-30 border-b border-line/70 bg-bg/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 bg-bg">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
           <div className="flex items-center gap-8">
-            <Link href="/" aria-label="Halora home" className="rounded-full">
+            <Link href="/" aria-label="Halora home" className="flex min-h-11 items-center text-fg">
               <Logo size={24} />
             </Link>
-            {connected && (
-              <nav aria-label="Dashboard" className="hidden md:block">
-                <NavLinks pending={pending} orientation="horizontal" />
-              </nav>
-            )}
+            {connected && <DesktopNav pending={pending} />}
           </div>
           <div className="flex items-center gap-2">
             {connected && (
-              <ButtonLink
-                href="/dashboard/agents/new"
-                size="sm"
-                icon={<Plus className="size-3.5" aria-hidden />}
-                className="hidden sm:inline-flex"
-              >
-                New agent
-              </ButtonLink>
+              <div className="hidden md:block">
+                <ButtonLink
+                  href="/dashboard/agents/new"
+                  size="sm"
+                  icon={<Plus className="size-4" aria-hidden />}
+                >
+                  New agent
+                </ButtonLink>
+              </div>
             )}
             <ThemeToggle />
             <div className="hidden sm:block">
               <OwnerChip />
             </div>
-            {connected && <MobileDisconnect />}
+            {connected && (
+              <button
+                type="button"
+                onClick={disconnect}
+                className="grid size-11 place-items-center rounded-[var(--radius-md)] text-muted hover:bg-surface-2 hover:text-fg sm:hidden"
+                aria-label="Disconnect wallet"
+              >
+                <LogOut className="size-5" aria-hidden />
+              </button>
+            )}
           </div>
         </div>
-        {connected && (
-          <nav
-            aria-label="Dashboard"
-            className="overflow-x-auto border-t border-line/70 px-3 py-2 md:hidden"
-          >
-            <NavLinks pending={pending} orientation="horizontal" />
-          </nav>
-        )}
       </header>
-      <main id="main" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-        <ConnectGate>{children}</ConnectGate>
+      <main
+        id="main"
+        className={cn(
+          'mx-auto max-w-7xl px-4 pt-6 pb-12 sm:px-6 sm:pt-10',
+          connected && 'pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-16',
+        )}
+      >
+        <ConnectGate>
+          <ViewTransition key={pathname} default="none" enter="page-enter" exit="page-exit">
+            <div>{children}</div>
+          </ViewTransition>
+        </ConnectGate>
       </main>
+      {connected && <MobileTabBar pending={pending} />}
     </div>
   );
 }

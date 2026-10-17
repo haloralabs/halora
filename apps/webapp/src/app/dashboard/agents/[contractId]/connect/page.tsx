@@ -163,10 +163,7 @@ export default function ConnectAgentPage() {
                   <CodeBlock label="mcp.json" code={mcpSnippet(params)} />
                   <ul className="grid gap-3 sm:grid-cols-2">
                     {MCP_TOOLS.map((t) => (
-                      <li
-                        key={t.name}
-                        className="rounded-[var(--radius-md)] border border-line bg-surface p-4"
-                      >
+                      <li key={t.name} className="rounded-[var(--radius-lg)] bg-surface-2 p-4">
                         <code className="font-mono text-[0.8125rem] text-accent">{t.name}</code>
                         <p className="mt-1 text-sm text-muted">{t.description}</p>
                       </li>

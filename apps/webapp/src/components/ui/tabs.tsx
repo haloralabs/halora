@@ -41,7 +41,7 @@ export function Tabs({
         role="tablist"
         aria-label={label}
         onKeyDown={onKeyDown}
-        className="inline-flex gap-1 rounded-full border border-line bg-surface-2 p-1"
+        className="inline-flex gap-1 rounded-[var(--radius-md)] bg-surface-2 p-1"
       >
         {items.map((item, i) => (
           <button
@@ -57,8 +57,8 @@ export function Tabs({
             tabIndex={i === index ? 0 : -1}
             onClick={() => onValueChange(item.id)}
             className={cn(
-              'h-8 rounded-full px-4 text-sm font-medium transition-colors',
-              i === index ? 'bg-surface text-fg shadow-sm' : 'text-muted hover:text-fg',
+              'min-h-10 rounded-[var(--radius-sm)] px-4 text-sm font-medium transition-[background-color,color] duration-[var(--t-hover)]',
+              i === index ? 'bg-bg text-fg' : 'text-muted hover:text-fg',
             )}
           >
             {item.label}

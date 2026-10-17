@@ -1,4 +1,4 @@
-import { useId, type ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 type HaloMeterProps = {
@@ -13,25 +13,30 @@ type HaloMeterProps = {
   className?: string;
 };
 
+const TICKS = 48;
+
 /**
- * The signature data display: a ring that fills with light as the agent spends against its daily
- * limit. Turns amber past 75 percent and red at the limit, so state never relies on color alone
- * (the center text always states the numbers).
+ * The signature data display: an instrument dial whose ring fills in signal yellow as the agent
+ * spends against its daily limit, and turns red at the limit. State never relies on colour alone:
+ * the centre always states the numbers. The ring fills from empty on first render through
+ * `@starting-style`, with no script.
  */
 export function HaloMeter({
   value,
-  size = 168,
-  stroke = 10,
+  size = 176,
+  stroke = 12,
   label,
   valueText,
   children,
   className,
 }: HaloMeterProps) {
-  const id = useId().replace(/:/g, '');
   const clamped = Math.max(0, Math.min(1, value));
-  const r = (size - stroke) / 2 - 4;
+  const r = (size - stroke) / 2 - 10;
   const c = 2 * Math.PI * r;
   const state = clamped >= 1 ? 'full' : clamped >= 0.75 ? 'high' : 'ok';
+  const center = size / 2;
+  const lit = Math.round(clamped * TICKS);
+
   return (
     <div
       role="meter"
@@ -41,7 +46,7 @@ export function HaloMeter({
       aria-valuenow={Math.round(clamped * 100)}
       aria-valuetext={valueText}
       data-state={state}
-      className={cn('relative inline-grid place-items-center', className)}
+      className={cn('relative inline-grid shrink-0 place-items-center', className)}
       style={{ width: size, height: size }}
     >
       <svg
@@ -51,56 +56,46 @@ export function HaloMeter({
         className="-rotate-90"
         aria-hidden
       >
-        <defs>
-          <linearGradient id={`${id}-g`} x1="0" y1="0" x2="1" y2="1">
-            {state === 'full' ? (
-              <>
-                <stop offset="0" stopColor="var(--danger)" />
-                <stop offset="1" stopColor="var(--danger)" />
-              </>
-            ) : state === 'high' ? (
-              <>
-                <stop offset="0" stopColor="var(--halo-amber)" />
-                <stop offset="1" stopColor="var(--halo-gold)" />
-              </>
-            ) : (
-              <>
-                <stop offset="0" stopColor="var(--halo-gold)" />
-                <stop offset="1" stopColor="var(--halo-aurora)" />
-              </>
-            )}
-          </linearGradient>
-        </defs>
+        {Array.from({ length: TICKS }, (_, i) => {
+          const a = (i / TICKS) * 2 * Math.PI;
+          const outer = center - 2;
+          const inner = outer - (i % 6 === 0 ? 6 : 3);
+          return (
+            <line
+              key={i}
+              x1={center + Math.cos(a) * inner}
+              y1={center + Math.sin(a) * inner}
+              x2={center + Math.cos(a) * outer}
+              y2={center + Math.sin(a) * outer}
+              stroke={i < lit ? 'var(--fg-muted)' : 'var(--line-strong)'}
+              strokeWidth={1.5}
+            />
+          );
+        })}
         <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={r + stroke / 2 + 3}
-          fill="none"
-          stroke="var(--line)"
-          strokeWidth={1}
-        />
-        <circle
-          cx={size / 2}
-          cy={size / 2}
+          cx={center}
+          cy={center}
           r={r}
           fill="none"
           stroke="var(--surface-2)"
           strokeWidth={stroke}
         />
         <circle
-          cx={size / 2}
-          cy={size / 2}
+          cx={center}
+          cy={center}
           r={r}
           fill="none"
-          stroke={`url(#${id}-g)`}
+          stroke={state === 'full' ? 'var(--danger)' : 'var(--halo-gold)'}
           strokeWidth={stroke}
-          strokeLinecap="round"
           strokeDasharray={c}
-          strokeDashoffset={c * (1 - clamped)}
-          style={{
-            transition: 'stroke-dashoffset 700ms var(--ease-out)',
-            filter: 'drop-shadow(0 0 6px var(--halo-glow))',
-          }}
+          style={
+            {
+              '--c': c,
+              strokeDashoffset: c * (1 - clamped),
+              transition: 'stroke-dashoffset 1000ms var(--ease-out), stroke 300ms ease',
+            } as CSSProperties
+          }
+          className="starting:[stroke-dashoffset:var(--c)]"
         />
       </svg>
       <div className="absolute inset-0 grid place-items-center text-center">{children}</div>
@@ -126,18 +121,14 @@ export function MeterBar({
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(clamped * 100)}
-      className={cn('h-1.5 w-full overflow-hidden rounded-full bg-surface-2', className)}
+      className={cn('h-2 w-full overflow-hidden rounded-[2px] bg-surface-2', className)}
     >
       <div
         className={cn(
-          'h-full rounded-full transition-[width] duration-700 ease-out',
-          clamped >= 1
-            ? 'bg-danger'
-            : clamped >= 0.75
-              ? 'bg-amber'
-              : 'bg-[linear-gradient(90deg,var(--halo-gold),var(--halo-aurora))]',
+          'h-full origin-left transition-transform duration-700 ease-[var(--ease-out)] starting:scale-x-0',
+          clamped >= 1 ? 'bg-danger' : 'bg-gold',
         )}
-        style={{ width: `${clamped * 100}%` }}
+        style={{ transform: `scaleX(${clamped})` }}
       />
     </div>
   );

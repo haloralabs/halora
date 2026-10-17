@@ -12,12 +12,7 @@ export function CodeBlock({
   className?: string;
 }) {
   return (
-    <figure
-      className={cn(
-        'overflow-hidden rounded-[var(--radius-md)] border border-line bg-sunken',
-        className,
-      )}
-    >
+    <figure className={cn('overflow-hidden rounded-[var(--radius-lg)] bg-sunken', className)}>
       <figcaption className="flex items-center justify-between gap-2 border-b border-line px-4 py-2">
         <span className="font-mono text-xs text-subtle">{label ?? 'code'}</span>
         <CopyButton value={code} label="Copy code" />

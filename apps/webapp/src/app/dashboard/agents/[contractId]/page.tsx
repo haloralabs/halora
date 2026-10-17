@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, Bell, Plug, ReceiptText, SlidersHorizontal } from 'lucide-react';
-import { useState, type ReactNode } from 'react';
+import { useState, ViewTransition, type ReactNode } from 'react';
 import { agentStatus } from '@/components/dashboard/agent-status';
 import { PageHeader } from '@/components/dashboard/page-header';
 import { PaymentsTable } from '@/components/dashboard/payments-table';
@@ -105,7 +105,9 @@ export default function AgentPage() {
         }
         title={
           <span className="flex flex-wrap items-center gap-3">
-            {account.label}
+            <ViewTransition name={`agent-title-${contractId}`} share="auto" default="none">
+              <span>{account.label}</span>
+            </ViewTransition>
             <Badge tone={status.tone} dot>
               {status.label}
             </Badge>
@@ -156,10 +158,6 @@ export default function AgentPage() {
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
         <Card className="relative overflow-hidden">
-          <div
-            aria-hidden
-            className="halo-ring absolute -top-24 -right-24 size-64 rounded-full opacity-[0.08] blur-3xl"
-          />
           <CardHeader>
             <div>
               <CardTitle>Today</CardTitle>
@@ -175,27 +173,27 @@ export default function AgentPage() {
               valueText={`${formatAmount(spentToday)} of ${formatAmount(policy.dailyLimit)} USDC spent today`}
             >
               <div>
-                <p className="tabular font-display text-3xl leading-none text-fg">
+                <p className="tabular text-[2rem] leading-none font-semibold tracking-[-0.04em] text-fg">
                   {formatAmount(spentToday)}
                 </p>
-                <p className="mt-1 text-xs text-subtle">
+                <p className="mt-1.5 text-sm text-subtle">
                   of {formatAmount(policy.dailyLimit)} USDC
                 </p>
               </div>
             </HaloMeter>
             <dl className="grid w-full grid-cols-2 gap-x-6 gap-y-5 xl:grid-cols-1">
               <div>
-                <dt className="text-xs text-subtle">Balance</dt>
-                <dd className="tabular mt-0.5 font-display text-2xl text-fg">
+                <dt className="text-sm text-subtle">Balance</dt>
+                <dd className="tabular mt-1 text-[1.75rem] leading-none font-semibold tracking-[-0.035em] text-fg">
                   {balance === null ? 'Unavailable' : formatAmount(balance)}{' '}
-                  <span className="font-sans text-xs text-subtle">USDC</span>
+                  <span className="text-sm font-medium tracking-normal text-subtle">USDC</span>
                 </dd>
               </div>
               <div>
-                <dt className="text-xs text-subtle">Left today</dt>
-                <dd className="tabular mt-0.5 font-display text-2xl text-fg">
+                <dt className="text-sm text-subtle">Left today</dt>
+                <dd className="tabular mt-1 text-[1.75rem] leading-none font-semibold tracking-[-0.035em] text-fg">
                   {formatAmount(remaining)}{' '}
-                  <span className="font-sans text-xs text-subtle">USDC</span>
+                  <span className="text-sm font-medium tracking-normal text-subtle">USDC</span>
                 </dd>
               </div>
             </dl>
@@ -302,7 +300,7 @@ export default function AgentPage() {
 function PolicyRow({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="flex items-baseline justify-between gap-4 border-b border-line/70 pb-3 sm:block sm:border-0 sm:pb-0">
-      <dt className="text-xs text-subtle">{label}</dt>
+      <dt className="text-sm text-subtle">{label}</dt>
       <dd className="tabular font-medium text-fg sm:mt-0.5">{value}</dd>
     </div>
   );

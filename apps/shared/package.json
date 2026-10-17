@@ -12,7 +12,15 @@
       "default": "./src/index.ts"
     },
     "./contracts.testnet.json": "./src/contracts.testnet.json",
-    "./contracts.mainnet.json": "./src/contracts.mainnet.json"
+    "./contracts.mainnet.json": "./src/contracts.mainnet.json",
+    "./policy": {
+      "types": "./src/policy.ts",
+      "default": "./src/policy.ts"
+    },
+    "./amount": {
+      "types": "./src/amount.ts",
+      "default": "./src/amount.ts"
+    }
   },
   "files": [
     "src",

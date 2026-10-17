@@ -65,7 +65,7 @@ export function ApprovalCard({
   return (
     <article
       aria-label={`${formatAmount(approval.amount)} USDC request from ${agentLabel}`}
-      className="rounded-[var(--radius-lg)] border border-line bg-surface p-5 shadow-sm sm:p-6"
+      className="rounded-[var(--radius-xl)] bg-surface p-5 sm:p-6"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -73,7 +73,7 @@ export function ApprovalCard({
             <span className="font-medium text-fg">{agentLabel}</span> wants to pay
           </p>
           <p className="mt-1 flex items-baseline gap-2">
-            <span className="tabular font-display text-4xl leading-none tracking-tight text-fg">
+            <span className="tabular text-[2.75rem] leading-none font-semibold tracking-[-0.045em] text-fg">
               {formatAmount(approval.amount)}
             </span>
             <span className="text-sm font-medium text-subtle">USDC</span>
@@ -174,7 +174,7 @@ export function ApprovalCard({
               id={`window-${approval.id}`}
               value={windowMinutes}
               onChange={(e) => setWindowMinutes(Number(e.target.value))}
-              className="h-8 w-fit rounded-full border border-line-strong bg-surface px-3 text-xs font-medium text-fg"
+              className="min-h-11 w-fit rounded-[var(--radius-md)] border border-line-strong bg-surface px-3 text-sm font-medium text-fg sm:min-h-9"
             >
               {APPROVAL_WINDOWS.map((w) => (
                 <option key={w.minutes} value={w.minutes}>

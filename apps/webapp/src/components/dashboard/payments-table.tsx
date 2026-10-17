@@ -66,7 +66,7 @@ export function PaymentsTable({
             >
               <td className="min-w-0 md:px-5 md:py-3.5 md:sm:px-6">
                 <div className="flex min-w-0 items-center gap-2.5">
-                  <span className="grid size-8 shrink-0 place-items-center rounded-full border border-line bg-surface-2">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-[var(--radius-md)] bg-surface-2">
                     {p.source === 'x402' ? (
                       <Globe className="size-3.5 text-accent" aria-hidden />
                     ) : (

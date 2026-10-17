@@ -110,7 +110,7 @@ export function PreApprovalsPanel({ contractId }: { contractId: string }) {
           </Callout>
         )}
         {open && (
-          <div className="space-y-4 rounded-[var(--radius-md)] border border-line bg-surface-2 p-4">
+          <div className="space-y-4 rounded-[var(--radius-lg)] bg-surface-2 p-4">
             <Field label="Recipient" error={errors.to}>
               <Input
                 className="font-mono"
@@ -133,7 +133,7 @@ export function PreApprovalsPanel({ contractId }: { contractId: string }) {
                 <select
                   value={hours}
                   onChange={(e) => setHours(Number(e.target.value))}
-                  className="h-11 w-full rounded-[var(--radius-md)] border border-line-strong bg-surface px-3.5 text-sm text-fg"
+                  className="h-11 w-full rounded-[var(--radius-md)] border border-line-strong bg-surface px-3.5 text-base text-fg"
                 >
                   {HOURS.map((h) => (
                     <option key={h.value} value={h.value}>

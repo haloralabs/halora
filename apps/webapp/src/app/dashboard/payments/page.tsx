@@ -46,7 +46,7 @@ function PaymentsView() {
                     : '/dashboard/payments',
                 )
               }
-              className="h-10 min-w-56 rounded-full border border-line-strong bg-surface px-4 text-sm text-fg"
+              className="min-h-11 min-w-56 rounded-[var(--radius-md)] border border-line-strong bg-surface px-3.5 text-base text-fg focus-visible:border-focus"
             >
               <option value="">All agents</option>
               {(agents.data ?? []).map((a) => (

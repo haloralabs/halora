@@ -7,19 +7,20 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 const base =
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-200 ease-out select-none disabled:pointer-events-none disabled:opacity-50 active:translate-y-px';
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-md)] font-medium transition-[background-color,color,transform] duration-[var(--t-hover)] ease-[var(--ease-out)] select-none touch-manipulation disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97] active:duration-[var(--t-press)]';
 
 const variants: Record<ButtonVariant, string> = {
-  primary: 'bg-primary text-on-primary shadow-sm hover:bg-primary-hover hover:shadow-halo',
-  secondary: 'border border-line-strong bg-surface text-fg hover:border-gold hover:bg-surface-2',
+  primary: 'bg-primary text-on-primary hover:bg-primary-hover',
+  secondary: 'bg-surface-2 text-fg hover:bg-line',
   ghost: 'text-muted hover:bg-surface-2 hover:text-fg',
-  danger: 'border border-danger/40 bg-danger-soft text-danger hover:border-danger',
+  danger: 'bg-danger-soft text-danger hover:bg-danger hover:text-white',
 };
 
+// Every size keeps a 44px hit area on touch screens.
 const sizes: Record<ButtonSize, string> = {
-  sm: 'h-8 px-3.5 text-[0.8125rem]',
-  md: 'h-10 px-5 text-sm',
-  lg: 'h-12 px-7 text-[0.9375rem]',
+  sm: 'min-h-11 sm:min-h-9 px-3.5 text-[0.875rem]',
+  md: 'min-h-11 px-5 text-[0.9375rem]',
+  lg: 'min-h-13 px-7 text-base',
 };
 
 export function buttonClasses(

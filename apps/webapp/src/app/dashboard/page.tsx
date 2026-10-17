@@ -48,21 +48,21 @@ export default function DashboardHome() {
         </Callout>
       )}
 
-      <dl className="grid grid-cols-1 gap-6 rounded-[var(--radius-lg)] border border-line bg-surface p-6 shadow-sm sm:grid-cols-3">
+      <dl className="grid grid-cols-1 gap-8 rounded-[var(--radius-xl)] bg-surface p-6 sm:grid-cols-3 sm:p-8">
         <Stat
           label="Total balance"
-          value={agents ? formatAmount(totals.balance) : '...'}
+          value={agents ? formatAmount(totals.balance) : '…'}
           unit="USDC"
         />
         <Stat
           label="Spent today"
-          value={agents ? formatAmount(totals.spent) : '...'}
+          value={agents ? formatAmount(totals.spent) : '…'}
           unit="USDC"
           hint={`Limits reset in ${formatDuration(secondsUntilUtcReset())} (00:00 UTC)`}
         />
         <Stat
           label="Waiting for you"
-          value={agents ? totals.pending : '...'}
+          value={agents ? totals.pending : '…'}
           hint={
             totals.pending > 0 ? (
               <Link

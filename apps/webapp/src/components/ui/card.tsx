@@ -2,15 +2,7 @@ import type { ComponentProps } from 'react';
 import { cn } from '@/lib/cn';
 
 export function Card({ className, ...rest }: ComponentProps<'section'>) {
-  return (
-    <section
-      className={cn(
-        'rounded-[var(--radius-lg)] border border-line bg-surface shadow-md',
-        className,
-      )}
-      {...rest}
-    />
-  );
+  return <section className={cn('rounded-[var(--radius-xl)] bg-surface', className)} {...rest} />;
 }
 
 export function CardHeader({ className, ...rest }: ComponentProps<'header'>) {
@@ -27,10 +19,7 @@ export function CardHeader({ className, ...rest }: ComponentProps<'header'>) {
 
 export function CardTitle({ className, ...rest }: ComponentProps<'h2'>) {
   return (
-    <h2
-      className={cn('text-[0.9375rem] font-semibold tracking-[-0.005em] text-fg', className)}
-      {...rest}
-    />
+    <h2 className={cn('text-base font-semibold tracking-[-0.01em] text-fg', className)} {...rest} />
   );
 }
 
@@ -46,7 +35,7 @@ export function CardFooter({ className, ...rest }: ComponentProps<'footer'>) {
   return (
     <footer
       className={cn(
-        'flex flex-wrap items-center justify-end gap-3 border-t border-line px-5 py-4 sm:px-6',
+        'flex flex-wrap items-center justify-end gap-3 bg-surface-2/60 px-5 py-4 sm:px-6',
         className,
       )}
       {...rest}

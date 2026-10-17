@@ -1,33 +1,83 @@
 'use client';
 
 import { useState } from 'react';
-import { CodeBlock, Tabs } from '@/components/ui';
+import { CopyButton } from '@/components/ui/copy-button';
+import { cn } from '@/lib/cn';
 import { PLACEHOLDER, installSnippet, mcpSnippet, sdkSnippet } from '@/lib/snippets';
 
+const TABS = [
+  { id: 'sdk', label: 'TypeScript SDK', file: 'agent.ts', code: () => sdkSnippet(PLACEHOLDER) },
+  { id: 'mcp', label: 'MCP server', file: 'mcp.json', code: () => mcpSnippet(PLACEHOLDER) },
+] as const;
+
+/** The integration code, shown as the product's own editor fragment on a carbon field. */
 export function DevTabs() {
-  const [tab, setTab] = useState('sdk');
+  const [active, setActive] = useState<(typeof TABS)[number]['id']>('sdk');
+  const tab = TABS.find((t) => t.id === active)!;
+  const code = tab.code();
+
   return (
-    <Tabs
-      label="Integration options"
-      value={tab}
-      onValueChange={setTab}
-      items={[
-        {
-          id: 'sdk',
-          label: 'TypeScript SDK',
-          content: (
-            <div className="space-y-3">
-              <CodeBlock label="terminal" code={installSnippet()} />
-              <CodeBlock label="agent.ts" code={sdkSnippet(PLACEHOLDER)} />
-            </div>
-          ),
-        },
-        {
-          id: 'mcp',
-          label: 'MCP server',
-          content: <CodeBlock label="mcp.json" code={mcpSnippet(PLACEHOLDER)} />,
-        },
-      ]}
-    />
+    <div data-ui className="overflow-hidden rounded-[var(--radius-lg)] bg-carbon-2 text-paper">
+      <div className="flex items-center justify-between gap-2 bg-[#232429] px-2 pt-2">
+        <div role="tablist" aria-label="Integration options" className="flex gap-1">
+          {TABS.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              role="tab"
+              id={`tab-${t.id}`}
+              aria-selected={active === t.id}
+              aria-controls={`panel-${t.id}`}
+              tabIndex={active === t.id ? 0 : -1}
+              onClick={() => setActive(t.id)}
+              onKeyDown={(e) => {
+                if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+                const next =
+                  TABS[
+                    (TABS.indexOf(t) + (e.key === 'ArrowRight' ? 1 : -1) + TABS.length) %
+                      TABS.length
+                  ]!;
+                setActive(next.id);
+                document.getElementById(`tab-${next.id}`)?.focus();
+              }}
+              className={cn(
+                'min-h-11 rounded-t-[var(--radius-md)] px-4 text-[0.9375rem] font-medium transition-colors duration-[var(--t-hover)]',
+                active === t.id ? 'bg-carbon-2 text-paper' : 'text-paper/70 hover:text-paper',
+              )}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div role="tabpanel" id={`panel-${tab.id}`} aria-labelledby={`tab-${tab.id}`}>
+        {tab.id === 'sdk' && (
+          <div className="flex items-center justify-between gap-3 px-5 pt-4">
+            <pre className="overflow-x-auto font-mono text-[0.875rem] text-signal">
+              <code>$ {installSnippet()}</code>
+            </pre>
+            <CopyButton
+              value={installSnippet()}
+              label="Copy install command"
+              className="text-paper/75 hover:bg-carbon hover:text-paper"
+            />
+          </div>
+        )}
+        <div className="flex items-center justify-between px-5 pt-4 text-[0.875rem] text-paper/70">
+          <span>{tab.file}</span>
+          <CopyButton
+            value={code}
+            label={`Copy ${tab.file}`}
+            className="text-paper/75 hover:bg-carbon hover:text-paper"
+          />
+        </div>
+        <pre
+          key={tab.id}
+          className="animate-rise max-h-[460px] overflow-auto px-5 pt-2 pb-6 font-mono text-[0.8125rem] leading-[1.7] text-paper/90 sm:text-[0.875rem]"
+        >
+          <code>{code}</code>
+        </pre>
+      </div>
+    </div>
   );
 }
