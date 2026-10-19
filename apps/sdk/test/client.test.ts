@@ -111,7 +111,8 @@ describe('HaloraClient owner operations', () => {
 
   test('deployAccount refuses owner == agent and missing wasm hash', async () => {
     const { ledger, owner } = setup();
-    const noHash = new HaloraClient({ network: 'testnet', rpc: ledger });
+    // Mainnet has no halora-account WASM hash until the mainnet deployment (testnet now does).
+    const noHash = new HaloraClient({ network: 'mainnet', rpc: ledger });
     await expect(
       noHash.deployAccount({
         owner,

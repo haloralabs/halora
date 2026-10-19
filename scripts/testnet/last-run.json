@@ -1,0 +1,47 @@
+{
+  "network": "testnet",
+  "startedAt": "2026-10-19T20:18:55.559Z",
+  "deploy": {
+    "contractId": "CDVQYINUKCVPGE4S2TLQUIASQJCMTEBOVPHOR6V46C7M3FZP7ZWZM63X",
+    "reused": true
+  },
+  "balance": "26 XLM in the account",
+  "pay-within-policy": {
+    "status": "paid",
+    "contractId": "CDVQYINUKCVPGE4S2TLQUIASQJCMTEBOVPHOR6V46C7M3FZP7ZWZM63X",
+    "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+    "to": "GADUNN44CBDJJCJTGKEK2J2DW3NLSEYXDXUICHL5RKKCLUYXPAGBFLGH",
+    "amount": "10000000",
+    "txHash": "98a715034cd698f5d5c7675241c4a72447da3e39965abe28121b766de0fcea27",
+    "ledger": 5283510
+  },
+  "pay-above-threshold": {
+    "held": true,
+    "code": "ApprovalRequired"
+  },
+  "owner-approve": {
+    "txHash": "ebabbfdc6e988598384705c676caa449b072b070e24fa3e7fdd10eb01318a40e"
+  },
+  "pay-after-approval": {
+    "status": "paid",
+    "contractId": "CDVQYINUKCVPGE4S2TLQUIASQJCMTEBOVPHOR6V46C7M3FZP7ZWZM63X",
+    "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+    "to": "GADUNN44CBDJJCJTGKEK2J2DW3NLSEYXDXUICHL5RKKCLUYXPAGBFLGH",
+    "amount": "30000000",
+    "txHash": "e9622b7665575eb08ff97f0a2e8fc9a091baeb13a5fede9b643d6b678b3da132",
+    "ledger": 5283515
+  },
+  "approval-consumed": true,
+  "contract-refuses-over-limit": {
+    "rejected": true,
+    "byContract": true,
+    "contractError": "PerTxLimitExceeded"
+  },
+  "contract-refuses-unknown-recipient": {
+    "rejected": true,
+    "byContract": true,
+    "contractError": "RecipientNotAllowed"
+  },
+  "spent-today": "8 XLM",
+  "finishedAt": "2026-10-19T20:19:25.335Z"
+}

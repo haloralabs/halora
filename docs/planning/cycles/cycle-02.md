@@ -11,7 +11,7 @@ Dates: 2026-11-02 to 2026-11-15. Status: planned.
 - [ ] **HAL-008** (SDK) x402 spike: pay a testnet x402 endpoint from a Halora account through the public facilitator. Done when: Recorded success and an over-limit rejection, or a written no-go.
 - [ ] **HAL-009** (SDK) Verify CAP-71 V2 credential signing and Freighter signAuthEntry for owner actions. Done when: Result recorded in the verification matrix.
 - [ ] **HAL-010** (Grant) Submit the SCF #46 Build application before Nov 8. Done when: Submission confirmation.
-- [ ] **HAL-011** (Contracts) Confirm USDC SAC contract IDs on testnet and mainnet from a primary source. Done when: IDs in contracts JSON with source link.
+- [x] **HAL-011** (Contracts) Confirm USDC SAC contract IDs on testnet and mainnet from a primary source. Done when: IDs in contracts JSON with source link.
 
 ## Notes
 
