@@ -448,6 +448,7 @@
 @keyframes line-up {
   to {
     transform: none;
+    filter: none;
   }
 }
 @keyframes caret-blink {
@@ -491,20 +492,24 @@
   .js [data-reveal] {
     opacity: 0;
     transform: translateY(var(--rise, 20px));
+    filter: blur(6px);
     transition:
-      opacity 700ms var(--ease-out),
-      transform 900ms var(--ease-out);
+      opacity 800ms var(--ease-out),
+      transform 1000ms var(--ease-out),
+      filter 800ms var(--ease-out);
     transition-delay: calc(var(--i, 0) * 70ms);
   }
   .js .is-in [data-reveal],
   .js [data-reveal].is-in {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 
   .js [data-line] {
     display: block;
     transform: translateY(108%);
+    filter: blur(10px);
     animation: line-up 1000ms var(--ease-out) forwards;
     animation-delay: calc(var(--i, 0) * 120ms + 120ms);
   }
@@ -515,6 +520,252 @@
   overflow: hidden;
   padding-bottom: 0.12em;
   margin-bottom: -0.12em;
+}
+
+/* ------------------------------------------------------------------------------------------ */
+/* Premium layer: texture, light and scroll-linked motion.                                     */
+/* ------------------------------------------------------------------------------------------ */
+
+/* Film grain over the whole landing: breaks gradient banding and gives the black some depth. */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 1.2s steps(4) infinite;
+}
+@keyframes grain-shift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate3d(-3%, 2%, 0);
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0);
+  }
+  75% {
+    transform: translate3d(-2%, -1%, 0);
+  }
+}
+
+/* A second star layer that twinkles. */
+.stars-twinkle {
+  background-image:
+    radial-gradient(1.5px 1.5px at 18% 28%, rgb(242 245 244 / 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 71% 16%, rgb(25 211 224 / 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 84% 52%, rgb(242 245 244 / 0.8), transparent),
+    radial-gradient(1.5px 1.5px at 41% 64%, rgb(45 245 180 / 0.8), transparent),
+    radial-gradient(1.5px 1.5px at 58% 32%, rgb(242 245 244 / 0.7), transparent);
+  animation: twinkle 4.5s ease-in-out infinite alternate;
+}
+@keyframes twinkle {
+  from {
+    opacity: 0.15;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animated aurora type: the gradient slowly flows through the words. */
+.aurora-text-flow {
+  background-image: linear-gradient(
+    100deg,
+    var(--aurora) 0%,
+    var(--aurora-teal) 35%,
+    var(--aurora) 70%,
+    var(--aurora-teal) 100%
+  );
+  background-size: 220% 100%;
+  animation: aurora-flow 8s ease-in-out infinite alternate;
+}
+@keyframes aurora-flow {
+  to {
+    background-position: 100% 0;
+  }
+}
+
+/* Buttons. Primary carries a sheen that sweeps across on hover. */
+.btn-aurora,
+.btn-ghost {
+  position: relative;
+  display: inline-flex;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  padding-inline: 1.75rem;
+  font-size: var(--step-body);
+  font-weight: 600;
+  transition:
+    background-color var(--t-hover) var(--ease-out),
+    border-color var(--t-hover) var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    transform var(--t-press) var(--ease-out);
+}
+.btn-aurora {
+  background: var(--aurora);
+  color: var(--aurora-ink);
+  box-shadow:
+    0 0 0 1px rgb(45 245 180 / 0.4),
+    0 10px 40px -12px rgb(45 245 180 / 0.6);
+}
+.btn-aurora::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgb(255 255 255 / 0.55) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  transition: transform 700ms var(--ease-out);
+}
+.btn-aurora:hover {
+  background: var(--aurora-hover);
+  box-shadow:
+    0 0 0 1px rgb(45 245 180 / 0.6),
+    0 14px 50px -10px rgb(45 245 180 / 0.8);
+}
+.btn-aurora:hover::after {
+  transform: translateX(120%);
+}
+.btn-ghost {
+  border: 1px solid var(--night-line-2);
+  background: rgb(10 11 12 / 0.5);
+  color: var(--frost);
+  backdrop-filter: blur(8px);
+}
+.btn-ghost:hover {
+  border-color: rgb(45 245 180 / 0.6);
+  background: var(--night-1);
+}
+.btn-aurora:active,
+.btn-ghost:active {
+  transform: scale(0.98);
+}
+
+/* Horizon: a line of light marking the top edge of a section. */
+.horizon {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(45 245 180 / 0.6),
+    rgb(25 211 224 / 0.6),
+    transparent
+  );
+}
+.horizon::after {
+  content: '';
+  position: absolute;
+  inset-inline: 20%;
+  top: -40px;
+  height: 80px;
+  background: radial-gradient(ellipse at center, rgb(45 245 180 / 0.12), transparent 70%);
+  pointer-events: none;
+}
+
+/* Spotlight: a soft light follows the pointer across a card (position set by SpotlightProvider). */
+[data-spotlight] {
+  --mx: 50%;
+  --my: -200px;
+  position: relative;
+  isolation: isolate;
+}
+[data-spotlight]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--mx) var(--my),
+    rgb(45 245 180 / 0.09),
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out);
+  pointer-events: none;
+}
+[data-spotlight]:hover::before {
+  opacity: 1;
+}
+
+/* Beam: a short arc of light that travels around a panel's border. */
+@property --beam-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.beam {
+  position: relative;
+}
+.beam::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0deg,
+    transparent 290deg,
+    var(--aurora-teal) 330deg,
+    var(--aurora) 355deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: beam-spin 6s linear infinite;
+  pointer-events: none;
+}
+@keyframes beam-spin {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+/* Scroll-linked motion (no script): the aurora drifts with the page and the hero recedes. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .parallax-aurora {
+      animation: aurora-parallax linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    .hero-exit {
+      animation: hero-exit linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 80%;
+    }
+  }
+}
+@keyframes aurora-parallax {
+  to {
+    transform: translate3d(0, 30vh, 0) scale(1.15);
+    opacity: 0.25;
+  }
+}
+@keyframes hero-exit {
+  to {
+    opacity: 0.2;
+    transform: translate3d(0, -6vh, 0) scale(0.97);
+  }
 }
 
 /* Page-to-page and in-page view transitions (React <ViewTransition>). */

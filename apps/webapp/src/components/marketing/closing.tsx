@@ -9,9 +9,10 @@ export function Closing() {
       aria-labelledby="close-title"
       className="relative isolate overflow-hidden bg-night px-4 py-32 text-frost md:px-8 md:py-44"
     >
+      <div aria-hidden className="horizon" />
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="stars absolute inset-0 opacity-70" />
-        <div className="aurora top-[20%]! opacity-45!">
+        <div className="aurora top-[20%]! opacity-60!">
           <span />
           <span />
           <span />
@@ -50,20 +51,14 @@ export function Closing() {
           style={{ ['--i' as string]: 3 }}
           className="mt-10 flex flex-col justify-center gap-3 sm:flex-row"
         >
-          <Link
-            href="/dashboard/agents/new"
-            className="group inline-flex min-h-13 items-center justify-center gap-2 rounded-[var(--radius-md)] bg-signal px-7 text-body font-semibold text-signal-ink transition-[background-color,transform,box-shadow] duration-[var(--t-hover)] hover:bg-signal-hover hover:shadow-[0_0_32px_-4px_var(--aurora)] active:scale-[0.98]"
-          >
+          <Link href="/dashboard/agents/new" className="btn-aurora group">
             Create an agent wallet
             <ArrowRight
               aria-hidden
               className="size-4 transition-transform duration-[var(--t-hover)] group-hover:translate-x-1"
             />
           </Link>
-          <Link
-            href="/dashboard"
-            className="group inline-flex min-h-13 items-center justify-center gap-2 rounded-[var(--radius-md)] border border-night-line-2 px-7 text-body font-semibold text-frost transition-[border-color,background-color,transform] duration-[var(--t-hover)] hover:border-signal/60 hover:bg-night-1 active:scale-[0.98]"
-          >
+          <Link href="/dashboard" className="btn-ghost group">
             Explore the demo
             <ArrowUpRight aria-hidden className="size-4" />
           </Link>

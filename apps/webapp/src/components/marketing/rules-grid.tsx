@@ -57,6 +57,7 @@ export function RulesGrid() {
       className="relative bg-night px-4 py-28 text-frost md:px-8 md:py-36"
     >
       <div aria-hidden className="stars absolute inset-0 opacity-40" />
+      <div aria-hidden className="horizon" />
       <div className="relative mx-auto max-w-[1400px]">
         <SectionHeader
           index="02"
@@ -74,6 +75,7 @@ export function RulesGrid() {
             <li
               key={param}
               data-reveal
+              data-spotlight
               style={{ ['--i' as string]: i + 2 }}
               className="group relative overflow-hidden rounded-[var(--radius-lg)] border border-night-line bg-night-1 p-6 transition-[border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-night-line-2 hover:bg-night-2"
             >

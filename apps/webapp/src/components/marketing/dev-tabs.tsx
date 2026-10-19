@@ -19,6 +19,7 @@ export function DevTabs() {
   return (
     <div
       data-ui
+      data-spotlight
       className="overflow-hidden rounded-[var(--radius-lg)] border border-night-line bg-night-1 text-frost"
     >
       <div className="flex items-center justify-between gap-2 border-b border-night-line px-2 pt-2">

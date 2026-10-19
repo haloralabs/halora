@@ -168,7 +168,11 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="min-h-dvh bg-bg">
+    <div className="relative isolate min-h-dvh bg-bg">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(ellipse_70%_60%_at_50%_-10%,var(--halo-glow),transparent_70%)] opacity-60"
+      />
       {config.dataMode === 'mock' && (
         <p className="flex items-center justify-center gap-2.5 border-b border-line bg-surface px-4 py-2 text-center font-mono text-[0.75rem] tracking-[0.06em] text-muted uppercase">
           <span className="size-1.5 shrink-0 rounded-full bg-held" aria-hidden />

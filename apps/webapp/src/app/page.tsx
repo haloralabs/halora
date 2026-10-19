@@ -8,6 +8,7 @@ import { RulesGrid } from '@/components/marketing/rules-grid';
 import { SectionHeader } from '@/components/marketing/section-header';
 import { SiteFooter } from '@/components/marketing/site-footer';
 import { SiteHeader } from '@/components/marketing/site-header';
+import { Spotlight } from '@/components/marketing/spotlight';
 import { VerdictDemo } from '@/components/marketing/verdict-demo';
 
 /*
@@ -23,7 +24,7 @@ import { VerdictDemo } from '@/components/marketing/verdict-demo';
  */
 export default function LandingPage() {
   return (
-    <div className="bg-night text-frost">
+    <div className="grain bg-night text-frost">
       <SiteHeader />
       <main id="main" className="overflow-x-clip">
         <Hero />
@@ -33,6 +34,7 @@ export default function LandingPage() {
           aria-labelledby="try-title"
           className="relative bg-night px-4 py-28 md:px-8 md:py-36"
         >
+          <div aria-hidden className="horizon" />
           <div className="mx-auto max-w-[1400px]">
             <SectionHeader
               index="01"
@@ -55,6 +57,7 @@ export default function LandingPage() {
       </main>
       <SiteFooter />
       <RevealObserver />
+      <Spotlight />
     </div>
   );
 }

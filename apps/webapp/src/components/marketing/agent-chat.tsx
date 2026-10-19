@@ -8,6 +8,7 @@ export function AgentChat() {
   return (
     <figure
       data-ui
+      data-spotlight
       className="h-full overflow-hidden rounded-[var(--radius-lg)] border border-night-line bg-night-1"
     >
       <figcaption className="flex items-center justify-between border-b border-night-line px-4 py-3 font-mono text-[0.8125rem] text-mist">

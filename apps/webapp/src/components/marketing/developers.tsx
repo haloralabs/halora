@@ -11,6 +11,7 @@ export function Developers() {
       aria-labelledby="dev-title"
       className="relative bg-night px-4 py-28 text-frost md:px-8 md:py-36"
     >
+      <div aria-hidden className="horizon" />
       <div className="mx-auto max-w-[1400px]">
         <SectionHeader
           index="04"

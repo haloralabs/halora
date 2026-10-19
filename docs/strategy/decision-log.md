@@ -145,3 +145,15 @@ The reference x402 facilitators (Coinbase and OpenZeppelin) reject simulations t
 **Status:** Adopted (coordinator).
 
 x402 authorization entries expire within the payment's `maxTimeoutSeconds` (about 60 seconds), which is too short for a human owner to co-sign. The owner instead calls `approve_payment(to, amount, expires_at)`, a one-time allowance consumed by the next matching agent transfer. Per-payment and daily limits still apply. `AgentWithOwner` co-signing is kept for direct (non-x402) payments. See `docs/architecture/interfaces.md` section 1.
+
+## 2026-10-19: Six-month calendar to a mainnet MVP
+
+**Status:** Adopted.
+
+The founder set a target of a mainnet MVP six months from today. The plan in `docs/planning/mvp-roadmap.md` runs twelve two-week cycles from 2026-10-19, with M1 testnet alpha on 2026-12-13, M2 testnet beta on 2027-02-21 and M3 mainnet MVP on 2027-04-15. Work does not wait for the SCF award: tranche scopes map onto M1 to M3, so an award in SCF #46 or #47 funds work already in motion. The first gate is the x402 go/no-go in cycle 2 (a Halora custom account paying through a public facilitator on testnet). Mainnet launches with capped policies until the audit is closed and 30 days pass without an incident.
+
+## 2026-10-19: Landing visual layer
+
+**Status:** Adopted.
+
+The landing adds a signature canvas (payments meeting the halo ring), film grain, twinkling stars, scroll-linked aurora parallax, blur-in reveals, a pointer spotlight on panels and a light beam around the policy terminal. All of it pauses off screen and stops under reduced motion.

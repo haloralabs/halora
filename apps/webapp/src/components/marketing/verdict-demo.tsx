@@ -54,8 +54,9 @@ export function VerdictDemo() {
       <div
         data-ui
         data-reveal
+        data-spotlight
         style={{ ['--i' as string]: 3 }}
-        className="overflow-hidden rounded-[var(--radius-lg)] border border-night-line bg-night-1 lg:col-span-8"
+        className="beam rounded-[var(--radius-lg)] border border-night-line bg-night-1 shadow-[0_40px_120px_-40px_rgb(45_245_180/0.25)] lg:col-span-8"
       >
         <div className="flex items-center justify-between gap-3 border-b border-night-line px-4 py-3 font-mono text-[0.8125rem] text-mist">
           <span className="flex items-center gap-2">

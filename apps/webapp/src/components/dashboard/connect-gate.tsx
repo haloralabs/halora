@@ -2,6 +2,7 @@
 
 import { Wallet } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { HaloField } from '@/components/marketing/halo-field';
 import { Button, Callout } from '@/components/ui';
 import { config } from '@/lib/config';
 import { useSession } from '@/stores/session';
@@ -12,27 +13,6 @@ const OWNER_CAN = [
   'Approve payments above your threshold',
   'Pause an agent, or take the funds back',
 ];
-
-/** A large, live halo: the policy ring turning around the agent core. */
-function HaloDial() {
-  return (
-    <svg viewBox="0 0 200 200" className="size-40 sm:size-56" aria-hidden>
-      <circle cx="100" cy="100" r="84" fill="none" stroke="var(--surface-2)" strokeWidth="18" />
-      <g
-        className="animate-halo-spin"
-        style={{ transformOrigin: '100px 100px', transformBox: 'view-box' }}
-      >
-        <path
-          d="M171 55A84 84 0 1 1 136 24"
-          fill="none"
-          stroke="var(--halo-gold)"
-          strokeWidth="18"
-        />
-      </g>
-      <circle cx="100" cy="100" r="28" fill="var(--fg)" />
-    </svg>
-  );
-}
 
 /** Renders children only once an owner wallet is connected. */
 export function ConnectGate({ children }: { children: ReactNode }) {
@@ -65,8 +45,10 @@ export function ConnectGate({ children }: { children: ReactNode }) {
           </Callout>
         )}
       </div>
-      <div className="flex flex-col gap-8 rounded-[var(--radius-xl)] bg-surface p-6 sm:flex-row sm:items-center sm:p-8 lg:flex-col lg:items-start">
-        <HaloDial />
+      <div className="flex flex-col gap-6 rounded-[var(--radius-xl)] border border-line bg-surface p-6 sm:p-8">
+        <div className="relative mx-auto aspect-square w-full max-w-[320px]">
+          <HaloField className="absolute inset-0 size-full" />
+        </div>
         <div>
           <h2 className="text-base font-semibold text-fg">With the owner key you can</h2>
           <ul className="mt-3 space-y-2.5">

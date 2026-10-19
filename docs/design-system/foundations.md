@@ -6,29 +6,29 @@ Tokens live in `apps/webapp/src/app/globals.css`. Components use tokens only, ne
 
 Halora is a sibling of [Akkuea](https://github.com/akkuea/akkuea) with its own identity. From Akkuea it takes the night ground, the terminal vernacular and one rule: a single signal colour that never changes between themes. Its own light is the **aurora**, mint green with a turquoise second voice over a night sky, because it lives on Stellar. Its own material is the halo (the policy ring around the agent) and the live policy check.
 
-| Shared with Akkuea | Halora's own |
-| --- | --- |
+| Shared with Akkuea                                                  | Halora's own                                                              |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | Pure black ground, `#0a0b0c` / `#121416` surfaces, hairline borders | Aurora signal (`#2df5b4`) and turquoise (`#19d3e0`) instead of red-orange |
-| Monospace for on-chain values, tabular figures, slashed zero | Star field and a slow aurora in the hero and the close |
-| `[01]` markers, terminal labels, `> command_` prompts | The live halo inside the hero sentence |
-| Live status dot, marquee ticker, corner marks | A ticker of payments and the contract's verdicts |
-| Feature cards with tags and a hover accent line | Rule cards that name the contract parameter |
-| Dark by default, light opt-in | Switzer for display and text |
+| Monospace for on-chain values, tabular figures, slashed zero        | Star field and a slow aurora in the hero and the close                    |
+| `[01]` markers, terminal labels, `> command_` prompts               | The live halo inside the hero sentence                                    |
+| Live status dot, marquee ticker, corner marks                       | A ticker of payments and the contract's verdicts                          |
+| Feature cards with tags and a hover accent line                     | Rule cards that name the contract parameter                               |
+| Dark by default, light opt-in                                       | Switzer for display and text                                              |
 
 ## Colour
 
-| Token | Value | Role |
-| --- | --- | --- |
-| `--night` | `#000000` | Ground |
-| `--night-1`, `--night-2` | `#0a0b0c`, `#121416` | Surfaces |
-| `--night-line`, `--night-line-2` | `#1f2326`, `#343a3e` | Borders, hover borders |
-| `--frost` | `#f2f5f4` | Primary text |
-| `--mist` | `#9aa5a0` | Secondary text |
-| `--dim` | `#808b86` | Tertiary text, dimmed headline lines (4.5:1 on black) |
-| `--aurora` | `#2df5b4` | The signal: primary action, allowed, active, focus |
-| `--aurora-teal` | `#19d3e0` | Second aurora voice: contract parameters, gradients |
-| `--held` | `#ffc24b` | Held for owner approval, pending |
-| `--deny` | `#ff5a6a` | Denied, destructive |
+| Token                            | Value                | Role                                                  |
+| -------------------------------- | -------------------- | ----------------------------------------------------- |
+| `--night`                        | `#000000`            | Ground                                                |
+| `--night-1`, `--night-2`         | `#0a0b0c`, `#121416` | Surfaces                                              |
+| `--night-line`, `--night-line-2` | `#1f2326`, `#343a3e` | Borders, hover borders                                |
+| `--frost`                        | `#f2f5f4`            | Primary text                                          |
+| `--mist`                         | `#9aa5a0`            | Secondary text                                        |
+| `--dim`                          | `#808b86`            | Tertiary text, dimmed headline lines (4.5:1 on black) |
+| `--aurora`                       | `#2df5b4`            | The signal: primary action, allowed, active, focus    |
+| `--aurora-teal`                  | `#19d3e0`            | Second aurora voice: contract parameters, gradients   |
+| `--held`                         | `#ffc24b`            | Held for owner approval, pending                      |
+| `--deny`                         | `#ff5a6a`            | Denied, destructive                                   |
 
 Text on a filled aurora surface uses `--aurora-ink` (`#00140d`). The dashboard's Day theme (`data-theme="light"`) maps the same roles onto darker, AA-safe values.
 

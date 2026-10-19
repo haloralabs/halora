@@ -17,7 +17,7 @@ flowchart LR
     P1 --> P2 --> P3
 ```
 
-Timing is expressed in months from award acceptance (M0). If Halora is awarded in SCF #46 (community vote ends 2026-12-03), M0 is expected in December 2026 and the pilot ends by June 2027. SCF requires each tranche to be submitted within 90 days of the previous payment.
+The calendar that executes this plan, with dated cycles and a mainnet MVP on 2027-04-15, is [`../planning/mvp-roadmap.md`](../planning/mvp-roadmap.md). Below, timing is expressed in months from award acceptance (M0). If Halora is awarded in SCF #46 (community vote ends 2026-12-03), M0 is expected in December 2026 and the pilot ends by June 2027. SCF requires each tranche to be submitted within 90 days of the previous payment.
 
 ---
 
