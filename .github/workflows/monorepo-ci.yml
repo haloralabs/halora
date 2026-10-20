@@ -18,7 +18,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check:
+  monorepo:
+    name: monorepo-ci
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
