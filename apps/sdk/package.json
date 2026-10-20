@@ -2,7 +2,7 @@
   "name": "@halora/sdk",
   "version": "0.1.0",
   "description": "TypeScript SDK for Halora: policy-bound Stellar wallets for AI agents",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",

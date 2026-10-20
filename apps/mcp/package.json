@@ -2,7 +2,7 @@
   "name": "@halora/mcp",
   "version": "0.1.0",
   "description": "MCP server that gives AI agents a policy-bound Halora wallet on Stellar",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "private": true,
   "type": "module",
   "bin": {

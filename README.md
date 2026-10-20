@@ -20,14 +20,14 @@ Halora works with x402 pay-per-request payments on Stellar: the agent signs only
 
 ## Repository
 
-| Path             | Package          | Role                                                                    |
-| ---------------- | ---------------- | ----------------------------------------------------------------------- |
+| Path             | Package          | Role                                                                       |
+| ---------------- | ---------------- | -------------------------------------------------------------------------- |
 | `apps/contracts` | Rust / Soroban   | `halora-account` custom account that enforces the policy in `__check_auth` |
-| `apps/shared`    | `@halora/shared` | Types, zod schemas, error map, policy helpers, contract IDs             |
-| `apps/sdk`       | `@halora/sdk`    | Account management, agent payments, x402 client, approvals              |
-| `apps/api`       | `@halora/api`    | Elysia API: approval queue, payment indexer, owner and agent auth       |
-| `apps/mcp`       | `@halora/mcp`    | MCP server exposing Halora wallet tools to any MCP-capable agent        |
-| `apps/webapp`    | `@halora/webapp` | Next.js owner dashboard and landing page                                |
+| `apps/shared`    | `@halora/shared` | Types, zod schemas, error map, policy helpers, contract IDs                |
+| `apps/sdk`       | `@halora/sdk`    | Account management, agent payments, x402 client, approvals                 |
+| `apps/api`       | `@halora/api`    | Elysia API: approval queue, payment indexer, owner and agent auth          |
+| `apps/mcp`       | `@halora/mcp`    | MCP server exposing Halora wallet tools to any MCP-capable agent           |
+| `apps/webapp`    | `@halora/webapp` | Next.js owner dashboard and landing page                                   |
 
 ## Getting started
 
@@ -47,8 +47,8 @@ Checks before any change is done: `bun run typecheck`, `bun run lint`, `bun run 
 
 ## Status
 
-Pilot under construction, targeting the Stellar Community Fund. Testnet deployment and an end-to-end x402 payment through a live facilitator are the next milestones. See the [roadmap](docs/strategy/roadmap.md).
+Pilot under construction, targeting the Stellar Community Fund. `halora-account` is live on testnet and verified end to end through the SDK (allowed, held and approved payments; over-limit and unknown-recipient payments refused by the contract): see [docs/deployment/testnet.md](docs/deployment/testnet.md). Next: an x402 payment through a live facilitator. Plan: [docs/planning/mvp-roadmap.md](docs/planning/mvp-roadmap.md).
 
 ## License
 
-MIT
+Apache-2.0. See [LICENSE](LICENSE).

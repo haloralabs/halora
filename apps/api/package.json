@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Halora API: approval queue and payment log for policy-bound agent wallets on Stellar",
   "private": true,
+  "license": "Apache-2.0",
   "type": "module",
   "module": "src/index.ts",
   "scripts": {

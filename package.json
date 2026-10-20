@@ -2,7 +2,7 @@
   "name": "halora",
   "private": true,
   "description": "Policy-bound wallets for AI agents on Stellar",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "workspaces": [
     "apps/shared",
     "apps/sdk",
