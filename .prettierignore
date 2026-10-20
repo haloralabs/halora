@@ -3,3 +3,8 @@ dist
 .next
 apps/contracts
 bun.lock
+.claude
+.taste-skill
+skills-lock.json
+next-env.d.ts
+scripts/testnet/*.json
