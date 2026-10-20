@@ -1,0 +1,55 @@
+{
+  "network": "stellar:testnet",
+  "facilitator": "https://x402.org/facilitator",
+  "startedAt": "2026-10-20T01:27:41.014Z",
+  "spent-before": "0 XLM",
+  "facilitator-verify": {
+    "status": 200,
+    "json": {
+      "isValid": true,
+      "payer": "CDVQYINUKCVPGE4S2TLQUIASQJCMTEBOVPHOR6V46C7M3FZP7ZWZM63X"
+    }
+  },
+  "facilitator-settle": {
+    "status": 200,
+    "json": {
+      "success": true,
+      "transaction": "63ddfed18c80bf335075a0f0cb8b88e233dd22aeba5b27d2f95cc4cf63edc01d",
+      "network": "stellar:testnet",
+      "payer": "CDVQYINUKCVPGE4S2TLQUIASQJCMTEBOVPHOR6V46C7M3FZP7ZWZM63X"
+    }
+  },
+  "agent-x402-event": {
+    "url": "http://localhost:49274/forecast",
+    "requirement": {
+      "scheme": "exact",
+      "network": "stellar:testnet",
+      "amount": "5000000",
+      "asset": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+      "payTo": "GADUNN44CBDJJCJTGKEK2J2DW3NLSEYXDXUICHL5RKKCLUYXPAGBFLGH",
+      "maxTimeoutSeconds": 60,
+      "extra": {
+        "areFeesSponsored": true
+      },
+      "resource": "http://localhost:49274/forecast"
+    },
+    "response": {}
+  },
+  "paid-fetch": {
+    "status": 200,
+    "body": {
+      "city": "Lisbon",
+      "tomorrow": {
+        "high": 22,
+        "low": 15,
+        "sky": "clear"
+      }
+    }
+  },
+  "spent-after": "0.5 XLM",
+  "over-limit-fetch": {
+    "refused": true,
+    "code": "PerTxLimitExceeded"
+  },
+  "finishedAt": "2026-10-20T01:27:52.903Z"
+}

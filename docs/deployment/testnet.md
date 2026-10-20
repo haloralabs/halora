@@ -30,7 +30,19 @@ Token XLM SAC; per payment 5 XLM; daily 20 XLM; approval above 2 XLM; allowlist 
 | Agent pays 1 XLM to a key outside the allowlist, pre-flight bypassed | **Refused by the contract**: `RecipientNotAllowed`   | Simulation failure                                                                                                               |
 | `spent_today` after two runs                                         | 8 XLM (1 + 3 per run)                                | View call                                                                                                                        |
 
-Not covered yet: x402 through a facilitator (HAL-008, cycle 2) and USDC as the policy token (needs Circle's testnet faucet).
+## x402 through a public facilitator (2026-10-19)
+
+`apps/sdk/scripts/x402-e2e.ts` runs a minimal x402 v2 resource server that charges 0.5 XLM and delegates verification and settlement to the public facilitator at `https://x402.org/facilitator` (`exact` scheme on `stellar:testnet`, fees sponsored).
+
+| Step                                                                                              | Result                                                    | Evidence                                                                                                                         |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `agent.fetch('/forecast')` gets HTTP 402, signs only the auth entry with `HaloraSignature::Agent` | Payload sent                                              | No XLM needed by the agent                                                                                                       |
+| Facilitator `/verify`                                                                             | `isValid: true`, payer = the Halora account               | Response logged                                                                                                                  |
+| Facilitator `/settle`                                                                             | Settled                                                   | [`63ddfed1...c01d`](https://stellar.expert/explorer/testnet/tx/63ddfed18c80bf335075a0f0cb8b88e233dd22aeba5b27d2f95cc4cf63edc01d) |
+| Resource returned                                                                                 | HTTP 200 with the forecast; `spent_today` rose by 0.5 XLM |                                                                                                                                  |
+| `agent.fetch('/report')` priced at 10 XLM (per payment limit 5)                                   | Refused before signing: `PerTxLimitExceeded`              |                                                                                                                                  |
+
+Not covered yet: USDC as the policy token (needs Circle's testnet faucet) and the OpenZeppelin facilitator (needs an API key).
 
 ## Reproduce
 

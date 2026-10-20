@@ -157,3 +157,9 @@ The founder set a target of a mainnet MVP six months from today. The plan in `do
 **Status:** Adopted.
 
 The landing adds a signature canvas (payments meeting the halo ring), film grain, twinkling stars, scroll-linked aurora parallax, blur-in reveals, a pointer spotlight on panels and a light beam around the policy terminal. All of it pauses off screen and stops under reduced motion.
+
+## 2026-10-19: x402 go/no-go: GO
+
+**Status:** Adopted.
+
+The cycle 2 gate passed early. On testnet, a Halora custom account paid an x402 v2 resource through the public facilitator at `https://x402.org/facilitator`: `/verify` returned `isValid: true` with the account as payer, and `/settle` settled (tx `63ddfed18c80bf335075a0f0cb8b88e233dd22aeba5b27d2f95cc4cf63edc01d`). The agent signed only the authorization entry with `HaloraSignature::Agent` and needed no XLM. An x402 price above the per payment limit was refused before signing. The fallback (running our own facilitator) is not needed for the pilot; it stays in the backlog as an option.
