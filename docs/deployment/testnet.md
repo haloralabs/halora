@@ -56,3 +56,17 @@ HALORA_CONTRACT_ID=C... scripts/testnet/deploy.sh           # rerun against an e
 ```
 
 The script builds and uploads the WASM, deploys an account through `@halora/sdk`, funds it with 30 XLM and runs `apps/sdk/scripts/testnet-e2e.ts`. Secrets are read from the Stellar CLI keystore into environment variables and never printed; the last run's public results are written to `scripts/testnet/last-run.json`.
+
+## MCP server against testnet (2026-10-19)
+
+`apps/mcp/scripts/testnet-smoke.ts` starts the real `@halora/mcp` server over stdio, as an MCP client like Claude would, and calls it against the demo account.
+
+| Tool call                                              | Result                                                                                                                                 |
+| ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `listTools`                                            | `halora_status`, `halora_pay`, `halora_fetch_paid`, `halora_approval_status`, `halora_recent_payments`                                 |
+| `halora_status`                                        | Live balance, policy and spent today from the contract                                                                                 |
+| `halora_pay` 0.2 XLM (`"2000000"` base units)          | Paid: [`34c9363b...0b30`](https://stellar.expert/explorer/testnet/tx/34c9363b7f159e4481c2f431b75f3addfb29197e0af6ff24c1397664df9f0b30) |
+| `halora_pay` 9 XLM (above the 5 XLM per payment limit) | Refused by policy (`PerTxLimitExceeded`), with an instruction to the model not to retry or work around it                              |
+| Secret redaction                                       | The agent secret appears in no tool output                                                                                             |
+
+Amounts are token base units (7 decimals). A first run passed `"0.2"` and `"9"` by mistake: the first failed input validation and the second paid 9 base units, inside the policy. See HAL-045.

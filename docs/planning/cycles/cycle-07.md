@@ -13,6 +13,7 @@ Dates: 2027-01-11 to 2027-01-24. Status: planned.
 - [ ] **HAL-028** (SDK) Three example agents: direct pay, x402 fetch, MCP. Done when: Examples run in CI.
 - [ ] **HAL-029** (Product) English and Spanish (next-intl) for landing and dashboard. Done when: Parity test green.
 - [ ] **HAL-030** (Product) Persist the demo session across reloads. Done when: Reload keeps the demo owner.
+- [ ] **HAL-045** (SDK) MCP tools accept and return human-readable amounts next to base units. Done when: tool schema and tests updated; base units still accepted.
 
 ## Notes
 
