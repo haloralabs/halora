@@ -1,0 +1,51 @@
+name: Contributor task (maintainers)
+description: A scoped task ready for an external contributor, for example in a Drips Wave.
+labels: ['help wanted']
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Why this matters and where it fits in the product.
+    validations:
+      required: true
+  - type: textarea
+    id: task
+    attributes:
+      label: Task
+      description: What to build or change, step by step if useful.
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Where to look
+      description: Files, functions and docs the contributor should read first.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Checkable statements. The pull request is done when all are true.
+      placeholder: |
+        - [ ] ...
+        - [ ] Tests cover ...
+    validations:
+      required: true
+  - type: textarea
+    id: test
+    attributes:
+      label: How to test
+    validations:
+      required: true
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Complexity (Drips Wave points)
+      options:
+        - Trivial (100)
+        - Medium (150)
+        - High (200)
+    validations:
+      required: true

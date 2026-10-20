@@ -1,0 +1,49 @@
+name: Bug report
+description: Something does not work as documented.
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. **Security problems go to private reporting, not here** (see SECURITY.md).
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Contract (halora-account)
+        - SDK (@halora/sdk)
+        - MCP server (@halora/mcp)
+        - API (@halora/api)
+        - Webapp (landing or dashboard)
+        - Docs
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps. For on-chain issues, the network and transaction hash.
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Commit or version
+      placeholder: main @ abc1234
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Remove any secret seeds or API keys first.
+      render: text

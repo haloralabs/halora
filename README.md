@@ -4,6 +4,11 @@
 
 **A halo for every agent. Policy-bound wallets for AI agents, on Stellar.**
 
+[![monorepo-ci](https://github.com/haloralabs/halora/actions/workflows/monorepo-ci.yml/badge.svg)](https://github.com/haloralabs/halora/actions/workflows/monorepo-ci.yml)
+[![contracts-ci](https://github.com/haloralabs/halora/actions/workflows/contracts-ci.yml/badge.svg)](https://github.com/haloralabs/halora/actions/workflows/contracts-ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-2df5b4.svg)](LICENSE)
+[![Telegram](https://img.shields.io/badge/community-Telegram-19d3e0.svg)](https://t.me/+gSSO903wiRlkNjk5)
+
 </div>
 
 AI agents increasingly pay for APIs, data and services on their own, per request. Halora gives each agent a Stellar smart account with rules it cannot break: a per-payment limit, a daily limit, an optional recipient allowlist, owner approval above a threshold, a pause switch and an expiry. Every payment the agent signs is checked by the account contract before the transfer happens, so a manipulated or buggy agent can never spend more than its owner allowed. Rules are enforced on-chain by the account contract, not by the agent, the SDK or our servers.
@@ -50,6 +55,13 @@ Checks before any change is done: `bun run typecheck`, `bun run lint`, `bun run 
 ## Status
 
 Pilot under construction, targeting the Stellar Community Fund. `halora-account` is live on testnet and verified end to end through the SDK (allowed, held and approved payments; over-limit and unknown-recipient payments refused by the contract): see [docs/deployment/testnet.md](docs/deployment/testnet.md). Next: an x402 payment through a live facilitator. Plan: [docs/planning/mvp-roadmap.md](docs/planning/mvp-roadmap.md).
+
+## Contributing
+
+Halora is open source and welcomes contributors, including through [Drips Wave](https://www.drips.network/wave). Start with [CONTRIBUTING.md](CONTRIBUTING.md), pick an issue labelled [`help wanted`](https://github.com/haloralabs/halora/issues?q=is%3Aopen+label%3A%22help+wanted%22) or [`good first issue`](https://github.com/haloralabs/halora/issues?q=is%3Aopen+label%3A%22good+first+issue%22), and say hello in the [community Telegram](https://t.me/+gSSO903wiRlkNjk5).
+
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Security policy](SECURITY.md): report vulnerabilities privately, never in public issues.
 
 ## License
 

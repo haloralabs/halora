@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/haloralabs/halora/security/advisories/new
+    about: Never report vulnerabilities in public issues. Use private reporting.
+  - name: Ask a question or chat with the community
+    url: https://t.me/+gSSO903wiRlkNjk5
+    about: The Halora community on Telegram.
