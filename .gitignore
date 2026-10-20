@@ -20,3 +20,6 @@ apps/contracts/**/test_snapshots/
 
 # Claude Code skills are restored from skills-lock.json (npx skills experimental_install)
 .claude/skills/
+
+# Vercel CLI link (local only)
+.vercel

@@ -6,8 +6,8 @@ Textos listos para copiar en [communityfund.stellar.org](https://communityfund.s
 
 - **Project name:** Halora
 - **Track:** Open Track
-- **Website:** [URL pública de la landing, cuando esté publicada]
-- **Repository:** [https://github.com/haloralabs/halora, cuando esté público]
+- **Website:** https://halora-ten.vercel.app
+- **Repository:** https://github.com/haloralabs/halora
 - **Contact:** [tu nombre y correo]
 - **Referral code:** [si alguien de la comunidad Stellar te refiere]
 
@@ -38,5 +38,5 @@ USD 72,000 over 5 months (Open Track), milestone-based: T1 testnet MVP, T2 testn
 ## Antes de enviar
 
 - [ ] Completar equipo, tarifas y la declaración de uso de IA en `scf-application.md`.
-- [ ] Repo público y landing publicada (para poder pegar los enlaces).
+- [x] Repo público y landing publicada.
 - [ ] Video corto (1 a 2 minutos) mostrando la terminal de la landing y el pago x402.
