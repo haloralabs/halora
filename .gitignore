@@ -17,3 +17,6 @@ apps/contracts/**/test_snapshots/
 
 # Design tooling output
 .taste-skill/
+
+# Claude Code skills are restored from skills-lock.json (npx skills experimental_install)
+.claude/skills/

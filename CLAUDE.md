@@ -55,6 +55,10 @@ rustup run stable cargo test
 
 Public repo: https://github.com/haloralabs/halora. `main` is protected: every change lands through a pull request, `monorepo-ci` must pass, history stays linear (squash merge). Planned work is tracked as GitHub issues HAL-001 to HAL-045 (see `docs/planning/backlog.md`); reference the issue in the PR.
 
+## Design skills
+
+The webapp was designed with Claude Code skills pinned in `skills-lock.json` (frontend-design, design-taste-frontend, redesign-existing-projects, ui-ux-pro-max, web-design-guidelines, vercel-react-best-practices, vercel-react-view-transitions). They are not vendored; restore them into `.claude/skills/` with `npx skills experimental_install`. The design decisions they produced live in `docs/design-system/`.
+
 ## Commit conventions
 
 Conventional Commits, one atomic logical change per commit: `<type>(<scope>): <short, lowercase, no trailing punctuation>`. Scopes: `contracts`, `shared`, `sdk`, `api`, `mcp`, `webapp`, `docs`, `ci`.
