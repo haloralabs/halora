@@ -1,0 +1,9 @@
+# Only the TypeScript workspaces are needed to build the webapp on Vercel.
+apps/contracts
+**/node_modules
+**/.next
+**/dist
+.taste-skill
+.claude
+docs
+scripts

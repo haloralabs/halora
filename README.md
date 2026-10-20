@@ -10,6 +10,8 @@ AI agents increasingly pay for APIs, data and services on their own, per request
 
 Halora works with x402 pay-per-request payments on Stellar: the agent signs only the authorization entries, a facilitator pays the fee, and the agent needs no XLM.
 
+**Live demo: [halora-ten.vercel.app](https://halora-ten.vercel.app)** (landing and owner dashboard in demo mode, no real funds)
+
 [Product brief](docs/strategy/product-brief.md) · [Roadmap](docs/strategy/roadmap.md) · [Interfaces](docs/architecture/interfaces.md) · [Contract](docs/contracts/halora-account.md) · [SDK](docs/sdk/README.md) · [API](docs/api/README.md)
 
 ## How it works
