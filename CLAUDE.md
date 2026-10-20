@@ -51,6 +51,10 @@ rustup run stable cargo clippy --all-targets -- -D warnings
 rustup run stable cargo test
 ```
 
+## Repository and workflow
+
+Public repo: https://github.com/haloralabs/halora. `main` is protected: every change lands through a pull request, `monorepo-ci` must pass, history stays linear (squash merge). Planned work is tracked as GitHub issues HAL-001 to HAL-045 (see `docs/planning/backlog.md`); reference the issue in the PR.
+
 ## Commit conventions
 
 Conventional Commits, one atomic logical change per commit: `<type>(<scope>): <short, lowercase, no trailing punctuation>`. Scopes: `contracts`, `shared`, `sdk`, `api`, `mcp`, `webapp`, `docs`, `ci`.
